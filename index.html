@@ -630,12 +630,17 @@ function closeExtra() {
   }
 }
 
-document.getElementById('close-extra-modal').addEventListener('click', closeExtra);
+document.getElementById('close-extra-modal').addEventListener('click', function(e) {
+  e.stopPropagation();
+  closeExtra();
+});
 
-// BOUTON PARTAGE 6E CHANCE - VERSION SIMPLE
-document.getElementById('btn-share-extra').onclick = function() {
-  var url = 'https://wa.me/?text=Je%20tente%20de%20gagner%2010000%20HTG%20sur%20Jwenn%20Drapo%20!%20' + encodeURIComponent(SITE_URL);
-  window.open(url, '_blank');
+document.getElementById('btn-share-extra').addEventListener('click', function(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  var message = "Je tente de gagner 10 000 HTG sur Jwenn Drapo'm !";
+  var waUrl = "https://wa.me/?text=" + encodeURIComponent(message + " " + SITE_URL);
+  window.open(waUrl, '_blank');
   
   if (extraCount < 10) {
     extraCount++;
@@ -648,8 +653,7 @@ document.getElementById('btn-share-extra').onclick = function() {
       gameStates.set('accueil');
     }
   }
-};
-
+});
     // POPUNDER (1/jour, après 2m30)
     function getToday() { const n=new Date(); return `${n.getFullYear()}-${n.getMonth()+1}-${n.getDate()}`; }
     function canPopunder() { const l=secureGet('popDate'); return !l || l.date!==getToday(); }
