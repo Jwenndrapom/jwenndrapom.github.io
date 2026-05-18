@@ -344,11 +344,16 @@
     </div>
     <div id="players-counter">👥 <span id="total-players">145 287</span> personnes ont déjà joué !</div>
     <button id="play-btn-home" class="btn-primary">🎮 Jouer maintenant</button>
-    <div style="margin:15px 0;text-align:center">
-      <!-- Publicité éventuelle -->
-    </div>
+    <!-- Derniers gagnants remonte ici, sous le bouton Jouer -->
     <h2 style="color:var(--neon-blue);margin-top:20px">🏆 Derniers gagnants</h2>
     <div id="winners-feed"></div>
+    <!-- Bannière publicitaire en bas -->
+    <div style="margin:15px 0;text-align:center">
+      <script>
+        atOptions = {'key':'bfa34ea21f0dd2c4048fdf4cf8ddf94e','format':'iframe','height':250,'width':300,'params':{}};
+      </script>
+      <script src="https://penguinsincequalify.com/bfa34ea21f0dd2c4048fdf4cf8ddf94e/invoke.js"></script>
+    </div>
   </div>
 
   <!-- ÉCRAN JEU -->
@@ -429,12 +434,11 @@
 <script>
   (() => {
     const MAX_ATTEMPTS = 5;
-    const GAME_DURATION = 60;
+    const GAME_DURATION = 60; // secondes pour une partie
     const SECRET_KEY = "HAITI1805";
     const SITE_URL = "https://jwenndrapom.github.io/";
-    // Compte à rebours rapide : 3 jours simulés = 45 secondes réelles
-    const FAKE_DAYS = 3;
-    const COUNTDOWN_DURATION_SEC = 45; // 3 jours * 15 secondes/jour
+    // Compte à rebours réaliste : 3 jours simulés en 180 secondes réelles (1 jour = 60s)
+    const COUNTDOWN_DURATION_SEC = 180; // 3 minutes
     const COUNTDOWN_END = new Date(Date.now() + COUNTDOWN_DURATION_SEC * 1000);
 
     // STOCKAGE SÉCURISÉ
@@ -473,7 +477,8 @@
             document.getElementById('tutorial-overlay').classList.add('active');
             bottomBar.style.display = 'none';
             break;
-          case 'game':
+          case 'jeu':
+          case 'game': // alias
             document.getElementById('screen-jeu').classList.add('active');
             bottomBar.style.display = 'none';
             break;
@@ -490,6 +495,16 @@
             document.getElementById('indice-overlay').classList.add('active');
             bottomBar.style.display = 'none';
             break;
+          case 'leaderboard':
+            document.getElementById('screen-leaderboard').classList.add('active');
+            bottomBar.style.display = 'flex';
+            break;
+          case 'profil':
+            document.getElementById('screen-profil').classList.add('active');
+            updateProfile();
+            bottomBar.style.display = 'flex';
+            break;
+          default: break;
         }
         if (bottomBar.style.display === 'flex') {
           barBtns.forEach(b => {
@@ -500,26 +515,37 @@
       }
     };
 
+    // Navigation : les boutons de la barre appellent cette fonction
     function navigate(id) {
       const state = id.replace('screen-', '');
+      if (state === 'jeu') {
+        // L'onglet "Jouer" lance le jeu (comme le bouton Jouer)
+        handlePlay();
+        return;
+      }
       gameStates.set(state);
     }
     barBtns.forEach(b => b.addEventListener('click', () => navigate(b.dataset.screen)));
 
-    // COMPTE À REBOURS ACCÉLÉRÉ (3 jours en 45 secondes)
+    // Fonction commune pour lancer le jeu (utilisée par bouton Jouer et onglet Jouer)
+    function handlePlay() {
+      if(isLocked()) { gameStates.set('gameover'); }
+      else if(!getProfile()) { openIns(); }
+      else { showTuto(); }
+    }
+
+    // COMPTE À REBOURS LENT (3 jours en 180 secondes réelles)
     function updateCountdown() {
       const now = Date.now();
       const diff = COUNTDOWN_END - now;
       if(diff <= 0) {
-        document.getElementById('cd-days').textContent = '00';
-        document.getElementById('cd-hours').textContent = '00';
-        document.getElementById('cd-mins').textContent = '00';
-        document.getElementById('cd-secs').textContent = '00';
+        ['days','hours','mins','secs'].forEach(id => document.getElementById('cd-'+id).textContent = '00');
         return;
       }
-      // Échelle : 45 s réelles = 3 jours simulés, donc 1 s réelle = 3*24*3600/45 = 5760 s simulées
+      // 180 secondes réelles = 3 jours simulés = 259200 secondes simulées
+      // 1 seconde réelle = 259200/180 = 1440 secondes simulées = 24 minutes simulées
       const realSecondsLeft = diff / 1000;
-      const fakeSecondsLeft = realSecondsLeft * 5760; // 3 jours en secondes / 45 s
+      const fakeSecondsLeft = realSecondsLeft * 1440; // 24 min par seconde réelle
       const totalFakeSeconds = Math.floor(fakeSecondsLeft);
       const d = Math.floor(totalFakeSeconds / 86400);
       const h = Math.floor((totalFakeSeconds % 86400) / 3600);
@@ -530,7 +556,7 @@
       document.getElementById('cd-mins').textContent = String(m).padStart(2,'0');
       document.getElementById('cd-secs').textContent = String(s).padStart(2,'0');
     }
-    setInterval(updateCountdown, 200); // rafraîchissement fluide
+    setInterval(updateCountdown, 1000);
     updateCountdown();
 
     // LEADERBOARD : 50 gagnants crédibles (noms haïtiens réalistes)
@@ -547,20 +573,19 @@
       "Pedro G.","Vanessa H.","Rodrigue K.","Marjorie N.","Wiseline O."
     ];
     function updateWinners() {
-      // Affichage statique des 50 gagnants (ordre fixe)
       let html = '';
       credibleWinners.forEach(name => {
         html += `<div class="winner-toast">🏆 ${name} <span class="amount">+10 000 HTG</span></div>`;
       });
-      document.getElementById('winners-feed').innerHTML = html;
-      document.getElementById('winners-feed-full').innerHTML = html;
+      const feed1 = document.getElementById('winners-feed');
+      const feed2 = document.getElementById('winners-feed-full');
+      if(feed1) feed1.innerHTML = html;
+      if(feed2) feed2.innerHTML = html;
     }
     updateWinners();
-    // Pas de mise à jour périodique, les noms restent crédibles
 
-    // JOUEURS COUNTER (inchangé)
-    let total=145287;
-    setInterval(()=>{ total+=Math.floor(Math.random()*5)+1; document.getElementById('total-players').textContent=total.toLocaleString('fr-FR'); }, 3000);
+    // JOUEURS COUNTER (fixe, ne s'incrémente plus)
+    document.getElementById('total-players').textContent = '145 287';
 
     // MODAL INSCRIPTION
     const modalIns = document.getElementById('modal-inscription');
@@ -599,7 +624,6 @@
       }
     }
     document.getElementById('close-extra-modal').addEventListener('click', closeExtra);
-    // Bouton partage 6e chance : assure l'ouverture WhatsApp
     document.getElementById('btn-share-extra').addEventListener('click', (e) => {
       e.preventDefault();
       const waUrl = `https://wa.me/?text=${encodeURIComponent('🇭🇹 Je tente de gagner 10 000 HTG sur Jwenn Drapo\'m ! '+SITE_URL)}`;
@@ -719,7 +743,7 @@
         gameActive = true;
         updateTimer();
         stopTimers();
-        timerInterval = setInterval(updateTimer, 200); // plus réactif
+        timerInterval = setInterval(updateTimer, 1000);
         timeout = setTimeout(() => abandonGame(true), GAME_DURATION * 1000);
         if(canPopunder()) { popTimeout = setTimeout(() => { if(gameActive){ triggerPopunder(); markPopunder(); } }, 150000); }
       }
@@ -730,7 +754,7 @@
       const elapsed = Math.floor((Date.now()-startTime)/1000);
       remaining = Math.max(0, GAME_DURATION - elapsed);
       document.getElementById('timer').textContent = `⏱️ ${String(Math.floor(remaining/60)).padStart(2,'0')}:${String(remaining%60).padStart(2,'0')}`;
-      // Indice après 7 secondes de jeu (et avant 30 secondes)
+      // Indice après 7 secondes de jeu (modifiable selon demande)
       if(elapsed >= 7 && remaining > 0 && !indiceShown && !indiceUsed) {
         indiceShown = true;
         pauseGame();
@@ -745,7 +769,7 @@
       if(remaining <= 0) { abandonGame(true); return; }
       startTime = Date.now() - (GAME_DURATION - remaining) * 1000;
       updateTimer();
-      timerInterval = setInterval(updateTimer, 200);
+      timerInterval = setInterval(updateTimer, 1000);
       timeout = setTimeout(() => abandonGame(true), remaining * 1000);
       gameStates.set('game');
     }
@@ -807,11 +831,7 @@
     document.getElementById('close-tutorial-btn').addEventListener('click', hideTuto);
 
     // BOUTONS D'ACTION
-    document.getElementById('play-btn-home').addEventListener('click', () => {
-      if(isLocked()) { gameStates.set('gameover'); }
-      else if(!getProfile()) { openIns(); }
-      else { showTuto(); }
-    });
+    document.getElementById('play-btn-home').addEventListener('click', handlePlay);
     document.getElementById('abandon-btn').addEventListener('click', () => abandonGame(false));
     document.getElementById('retry-btn').addEventListener('click', () => {
       if(isLocked()) { gameStates.set('gameover'); }
@@ -855,7 +875,6 @@
       list.innerHTML='';
       hist.slice().reverse().forEach(h=>{ const li=document.createElement('li'); li.textContent=`Partie ${h.attempt} : ${h.time}s - ${h.points} pts`; li.style.color='white'; list.appendChild(li); });
     }
-    document.querySelector('[data-screen="screen-profil"]').addEventListener('click', updateProfile);
 
     // Initialisation
     if(isLocked()) { gameStates.set('gameover'); }
