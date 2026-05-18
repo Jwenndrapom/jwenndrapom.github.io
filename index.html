@@ -36,7 +36,7 @@
       height: 100%;
       margin: 0; padding: 0;
       overflow: hidden;
-      background: #2b1d0e; /* brun foncé */
+      background: #2b1d0e;
       font-family: 'Segoe UI', system-ui, sans-serif;
       -webkit-tap-highlight-color: transparent;
       color: var(--text);
@@ -242,29 +242,49 @@
       pointer-events: none;
     }
 
-    .game-message {
-      text-align: center;
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: var(--neon-red);
-      margin-top: 20px;
+    /* ========== OVERLAYS TUTORIEL & INDICE ========== */
+    #tutorial-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 10001;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(10px);
+      display: none;
+      align-items: center;
+      justify-content: center;
     }
-
-    /* ========== OVERLAY INDICE ========== */
+    #tutorial-overlay.active {
+      display: flex;
+    }
     #indice-overlay {
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.85); backdrop-filter: blur(10px);
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      z-index: 20; padding: 20px; text-align: center; color: white;
+      position: fixed;
+      inset: 0;
+      z-index: 10002;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(10px);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      text-align: center;
+      color: white;
     }
-    #indice-overlay.hidden { display: none; }
+    #indice-overlay.active {
+      display: flex;
+    }
+    #tutorial-animation {
+      pointer-events: none;
+    }
+    .tuto-plate {
+      transition: transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+    }
 
     .defeat-card {
       background: var(--glass); backdrop-filter: blur(20px);
       border-radius: var(--radius); padding: 25px; text-align: center;
       margin: 10px 0; border: 1px solid rgba(255,255,255,0.2); color: white;
     }
-    .hidden { display: none !important; }
 
     @media (min-width: 768px) {
       #app { width: 100%; height: 100vh; }
@@ -297,15 +317,26 @@
     </div>
   </div>
 
-  <!-- TUTORIEL -->
-  <div id="tutorial-overlay" class="hidden">
-    <h2 style="color:var(--neon-blue)">Comment jouer ?</h2>
-    <p style="color:white;max-width:300px;margin:20px auto">Le drapeau est caché sous une assiette dorée. Suis le mélange et clique sur la bonne assiette pour gagner 10 000 HTG !</p>
-    <button id="close-tutorial-btn" class="btn-primary">👍 J'ai compris</button>
+  <!-- TUTORIEL (nouvelle version) -->
+  <div id="tutorial-overlay" class="modal-overlay">
+    <div class="modal-card" style="text-align:center">
+      <h2 style="color:var(--neon-blue)">👆 Regarde bien !</h2>
+      <p style="color:white;margin:10px 0">Le drapeau est caché sous une assiette dorée, puis les assiettes se mélangent.</p>
+      <!-- Animation tutoriel indépendante -->
+      <div id="tutorial-animation" style="height:160px;position:relative;margin:20px auto;width:320px">
+        <div id="tuto-finger" style="position:absolute;font-size:2rem;z-index:10;transition: all 0.4s ease">👉</div>
+        <div id="tuto-plates" style="display:flex;justify-content:space-between;width:100%;position:absolute;bottom:20px">
+          <div class="tuto-plate" style="width:70px;height:70px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#ffdf00,#b8860b);box-shadow:0 10px 20px rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center">🇭🇹</div>
+          <div class="tuto-plate" style="width:70px;height:70px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#ffdf00,#b8860b);box-shadow:0 10px 20px rgba(0,0,0,0.7)"></div>
+          <div class="tuto-plate" style="width:70px;height:70px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#ffdf00,#b8860b);box-shadow:0 10px 20px rgba(0,0,0,0.7)"></div>
+        </div>
+      </div>
+      <button id="close-tutorial-btn" class="btn-primary">👍 J'ai compris</button>
+    </div>
   </div>
 
   <!-- ÉCRAN ACCUEIL -->
-  <div id="screen-accueil" class="screen">
+  <div id="screen-accueil" class="screen active">
     <h1 style="text-align:center;background:linear-gradient(135deg,var(--neon-green),var(--neon-blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Jwenn Drapo a 🇭🇹</h1>
     <p style="text-align:center;color:var(--neon-pink);font-weight:bold">GRAND PRIX 10 000 HTG</p>
     <div id="countdown-box">
@@ -315,10 +346,7 @@
     <div id="players-counter">👥 <span id="total-players">145 287</span> personnes ont déjà joué !</div>
     <button id="play-btn-home" class="btn-primary">🎮 Jouer maintenant</button>
     <div style="margin:15px 0;text-align:center">
-      <script>
-        atOptions = {'key':'bfa34ea21f0dd2c4048fdf4cf8ddf94e','format':'iframe','height':250,'width':300,'params':{}};
-      </script>
-      <script src="https://penguinsincequalify.com/bfa34ea21f0dd2c4048fdf4cf8ddf94e/invoke.js"></script>
+      <!-- emplacement publicité éventuel -->
     </div>
     <h2 style="color:var(--neon-blue);margin-top:20px">🏆 Derniers gagnants</h2>
     <div id="winners-feed"></div>
@@ -337,8 +365,8 @@
     </div>
   </div>
 
-  <!-- OVERLAY INDICE -->
-  <div id="indice-overlay" class="hidden">
+  <!-- OVERLAY INDICE (reste le même mais contrôlé par état) -->
+  <div id="indice-overlay">
     <h3 style="color:var(--neon-pink)">⏳ Plus que 30 secondes !</h3>
     <p>Partage à 10 personnes sur WhatsApp pour obtenir un indice.</p>
     <button id="share-indice-btn" class="btn-share">📤 Partager et obtenir l'indice</button>
@@ -352,10 +380,6 @@
       <p>Tu as mis <span id="defeat-time"></span></p>
       <p>Points accumulés : <span id="defeat-points" style="font-size:2rem;color:var(--gold)"></span></p>
       <p style="margin-top:10px">Parties restantes : <strong id="remaining-attempts"></strong></p>
-      <div style="margin:15px 0">
-        <script async src="https://penguinsincequalify.com/623647ad2d51b4896cf878366ccdd192/invoke.js"></script>
-        <div id="container-623647ad2d51b4896cf878366ccdd192"></div>
-      </div>
       <button id="retry-btn" class="btn-primary">🔄 Réessayer</button>
       <button id="share-defeat-btn" class="btn-share">📤 Partager sur WhatsApp</button>
     </div>
@@ -411,7 +435,7 @@
     const SITE_URL = "https://jwenndrapom.github.io/";
     const EVENT_END_DATE = new Date('2026-05-18T23:59:59-05:00');
 
-    // STOCKAGE
+    // STOCKAGE SÉCURISÉ
     function hash(s) { let h=5381; for(let i=0;i<s.length;i++) h=(h*33)^s.charCodeAt(i); return (h>>>0).toString(16).toUpperCase().padStart(8,'0'); }
     function secureSet(k,v) { const j=JSON.stringify(v), c=hash(j+SECRET_KEY); localStorage.setItem(k,btoa(JSON.stringify({d:j,h:c}))); }
     function secureGet(k) { const r=localStorage.getItem(k); if(!r) return null; try { const p=JSON.parse(atob(r)); if(p.h!==hash(p.d+SECRET_KEY)) { localStorage.removeItem(k); return null; } return JSON.parse(p.d); } catch(e) { localStorage.removeItem(k); return null; } }
@@ -427,15 +451,60 @@
     function loadHist() { const d=secureGet('hist'); return d?d.entries:[]; }
     function addHist(e) { let h=loadHist(); h.push(e); if(h.length>20)h.shift(); secureSet('hist',{entries:h}); }
 
-    // NAVIGATION
-    const screens = document.querySelectorAll('.screen');
+    // GESTION D'ÉTAT CENTRALISÉE
     const barBtns = document.querySelectorAll('.bar-btn');
+    const gameStates = {
+      current: 'accueil',
+      set: function(state) {
+        this.current = state;
+        // Cacher tous les écrans et overlays
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById('tutorial-overlay').classList.remove('active');
+        document.getElementById('indice-overlay').classList.remove('active');
+        const bottomBar = document.getElementById('bottom-bar');
+
+        switch(state) {
+          case 'accueil':
+            document.getElementById('screen-accueil').classList.add('active');
+            bottomBar.style.display = 'flex';
+            break;
+          case 'tutorial':
+            document.getElementById('tutorial-overlay').classList.add('active');
+            bottomBar.style.display = 'none';
+            break;
+          case 'game':
+            document.getElementById('screen-jeu').classList.add('active');
+            bottomBar.style.display = 'none';
+            break;
+          case 'defeat':
+            document.getElementById('screen-defaite').classList.add('active');
+            bottomBar.style.display = 'none';
+            break;
+          case 'gameover':
+            document.getElementById('screen-gameover').classList.add('active');
+            bottomBar.style.display = 'none';
+            break;
+          case 'paused':
+            document.getElementById('screen-jeu').classList.add('active');
+            document.getElementById('indice-overlay').classList.add('active');
+            bottomBar.style.display = 'none';
+            break;
+          default: break;
+        }
+        // Met à jour l'état visuel des boutons de navigation
+        if (bottomBar.style.display === 'flex') {
+          barBtns.forEach(b => {
+            const target = b.dataset.screen === 'screen-accueil' ? 'accueil' : b.dataset.screen.replace('screen-', '');
+            b.classList.toggle('active', target === state);
+          });
+        }
+      }
+    };
+
+    // Navigation simplifiée
     function navigate(id) {
-      screens.forEach(s => s.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-      const hide = ['screen-jeu','screen-defaite','screen-gameover'].includes(id);
-      document.getElementById('bottom-bar').style.display = hide ? 'none' : 'flex';
-      barBtns.forEach(b => { b.classList.remove('active'); if(b.dataset.screen===id) b.classList.add('active'); });
+      const state = id.replace('screen-', '');
+      gameStates.set(state);
     }
     barBtns.forEach(b => b.addEventListener('click', () => navigate(b.dataset.screen)));
 
@@ -451,7 +520,7 @@
     }
     setInterval(updateCountdown, 1000); updateCountdown();
 
-    // WINNERS
+    // WINNERS FEED
     const noms = ["Claude J.","Remy D.","Magalie T.","Pierre L.","Rose M.","Davidson F.","Nathalie B.","Marc K.","Claudine J.","Emmanuel S.","Steeve R.","Chantal V.","Kensley H.","Wildine E.","Youseline O.","Jean R.","Michaëlle C.","Frantz D.","Ricardo A.","Sophie P."];
     function updateWinners() {
       let html='';
@@ -471,13 +540,7 @@
     function closeIns() { modalIns.classList.remove('active'); }
     document.getElementById('close-modal-btn').addEventListener('click', closeIns);
 
-    // TUTORIEL
-    const tutorial = document.getElementById('tutorial-overlay');
-    function showTuto() { tutorial.classList.remove('hidden'); }
-    function hideTuto() { tutorial.classList.add('hidden'); }
-    document.getElementById('close-tutorial-btn').addEventListener('click', ()=>{ hideTuto(); startGame(); });
-
-    // 6E CHANCE
+    // MODAL 6E CHANCE
     const modalExtra = document.getElementById('modal-extra-chance');
     let extraCount=0, visibilityListener=null;
     function openExtra() {
@@ -487,7 +550,7 @@
         if(document.visibilityState==='visible' && extraCount<10) {
           extraCount++; document.getElementById('share-progress-text').textContent=`${extraCount} / 10 partages`;
           document.getElementById('share-progress-fill').style.width=(extraCount*10)+'%';
-          if(extraCount>=10) { setExtra(true); closeExtra(); alert('🎉 6ᵉ chance débloquée !'); navigate('screen-accueil'); }
+          if(extraCount>=10) { setExtra(true); closeExtra(); alert('🎉 6ᵉ chance débloquée !'); gameStates.set('accueil'); }
         }
       };
       document.addEventListener('visibilitychange', visibilityListener);
@@ -496,9 +559,8 @@
     document.getElementById('close-extra-modal').addEventListener('click', closeExtra);
     document.getElementById('btn-share-extra').addEventListener('click', ()=>{
       window.open(`https://wa.me/?text=${encodeURIComponent('🇭🇹 Je tente de gagner 10 000 HTG sur Jwenn Drapo\'m ! '+SITE_URL)}`, '_blank');
-      if(extraCount<10){ extraCount++; document.getElementById('share-progress-text').textContent=`${extraCount} / 10 partages`; document.getElementById('share-progress-fill').style.width=(extraCount*10)+'%'; if(extraCount>=10){ setExtra(true); closeExtra(); alert('🎉 6ᵉ chance débloquée !'); navigate('screen-accueil'); } }
+      if(extraCount<10){ extraCount++; document.getElementById('share-progress-text').textContent=`${extraCount} / 10 partages`; document.getElementById('share-progress-fill').style.width=(extraCount*10)+'%'; if(extraCount>=10){ setExtra(true); closeExtra(); alert('🎉 6ᵉ chance débloquée !'); gameStates.set('accueil'); } }
     });
-    document.getElementById('btn-extra-chance').addEventListener('click', openExtra);
 
     // POPUNDER (1/jour, après 2m30)
     function getToday() { const n=new Date(); return `${n.getFullYear()}-${n.getMonth()+1}-${n.getDate()}`; }
@@ -506,7 +568,7 @@
     function markPopunder() { secureSet('popDate',{date:getToday()}); }
     function triggerPopunder() { const s=document.createElement('script'); s.src='https://penguinsincequalify.com/13/4b/19/134b1970caa33d9d8228aebf165e4d10.js'; document.body.appendChild(s); }
 
-    // JEU BONNETEAU CASINO (Logique)
+    // JEU BONNETEAU
     let attempt=0, timerInterval=null, timeout=null, startTime=null, remaining=GAME_DURATION;
     let indiceShown=false, indiceUsed=false, popTimeout=null, gameActive=false;
     let bowls = [];
@@ -516,22 +578,16 @@
       const container = document.getElementById('bowls-container');
       container.innerHTML = '';
       bowls = [];
-      
-      // Positions X fixes (gauche, centre, droite)
       const positions = [10, 120, 230];
-
       for(let i=0; i<3; i++) {
         const plate = document.createElement('div');
         plate.className = 'plate';
-        // Utilisation de transform pour une animation fluide
         plate.style.transform = `translateX(${positions[i]}px) translateY(0px)`;
         plate.dataset.pos = positions[i]; 
         plate.addEventListener('click', onPlateClick);
         container.appendChild(plate);
         bowls.push(plate);
       }
-
-      // Création du drapeau
       if(!document.getElementById('hidden-flag')) {
         const flag = document.createElement('div');
         flag.id = 'hidden-flag';
@@ -547,22 +603,14 @@
         const flag = document.getElementById('hidden-flag');
         const randomIdx = Math.floor(Math.random() * 3);
         const targetX = parseInt(bowls[randomIdx].dataset.pos);
-
-        // Positionner le drapeau sous l'assiette choisie
         flag.style.left = `${targetX + 22}px`;
         flag.style.display = 'block';
-
-        // Soulever l'assiette
         bowls[randomIdx].style.transition = "transform 0.4s ease-out";
         bowls[randomIdx].style.transform = `translateX(${targetX}px) translateY(-50px)`;
-
         setTimeout(() => {
-          // Reposer l'assiette
           bowls[randomIdx].style.transform = `translateX(${targetX}px) translateY(0px)`;
           setTimeout(() => {
-            // RETIRER LE DRAPEAU DU DOM AVANT LE MÉLANGE
             flag.style.display = 'none';
-            // Rétablir la transition pour le mélange
             bowls[randomIdx].style.transition = "transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)";
             resolve();
           }, 400); 
@@ -572,35 +620,21 @@
 
     function shuffleBowls() {
       return new Promise(resolve => {
-        let steps = 6 + Math.floor(Math.random()*5); // 6 à 10 échanges
+        let steps = 6 + Math.floor(Math.random()*5);
         let count = 0;
         isShuffling = true;
-
         function move() {
-          if(count >= steps) { 
-            isShuffling = false; 
-            resolve(); 
-            return; 
-          }
-          
+          if(count >= steps) { isShuffling = false; resolve(); return; }
           let a = Math.floor(Math.random()*3);
           let b = Math.floor(Math.random()*3);
           while(b === a) b = Math.floor(Math.random()*3);
-          
           const plateA = bowls[a], plateB = bowls[b];
           const posA = plateA.dataset.pos, posB = plateB.dataset.pos;
-
-          // Échange visuel
           plateA.style.transform = `translateX(${posB}px) translateY(0px)`;
           plateB.style.transform = `translateX(${posA}px) translateY(0px)`;
-
-          // Échange des attributs de position
           plateA.dataset.pos = posB;
           plateB.dataset.pos = posA;
-
-          // Échange dans le tableau
           [bowls[a], bowls[b]] = [bowls[b], bowls[a]];
-
           count++;
           setTimeout(move, 450);
         }
@@ -609,19 +643,16 @@
     }
 
     async function startGame() {
-      if(isLocked()) { navigate('screen-gameover'); return; }
+      if(isLocked()) { gameStates.set('gameover'); return; }
       if(!getProfile()) { openIns(); return; }
-      if(!incAttempt()) { navigate('screen-gameover'); return; }
+      if(!incAttempt()) { gameStates.set('gameover'); return; }
       attempt = getAttempts();
-      
       createBowls();
-      document.getElementById('indice-overlay').classList.add('hidden');
       gameActive = false;
-      navigate('screen-jeu');
-
-      // Séquence : Montrer drapeau -> Cacher -> Mélanger -> Lancer Chrono
+      indiceShown = false;
+      indiceUsed = false;
+      gameStates.set('game');
       await showFlagBriefly();
-      
       setTimeout(async () => {
         await shuffleBowls();
         startTimers();
@@ -634,8 +665,8 @@
         updateTimer();
         stopTimers();
         timerInterval = setInterval(updateTimer, 1000);
-        timeout = setTimeout(() => abandonGame(true), GAME_DURATION*1000);
-        if(canPopunder()) { popTimeout = setTimeout(()=>{ if(gameActive){ triggerPopunder(); markPopunder(); } }, 150000); }
+        timeout = setTimeout(() => abandonGame(true), GAME_DURATION * 1000);
+        if(canPopunder()) { popTimeout = setTimeout(() => { if(gameActive){ triggerPopunder(); markPopunder(); } }, 150000); }
       }
     }
 
@@ -646,69 +677,115 @@
       document.getElementById('timer').textContent = `⏱️ ${String(Math.floor(remaining/60)).padStart(2,'0')}:${String(remaining%60).padStart(2,'0')}`;
       if(remaining<=30 && remaining>0 && !indiceShown && !indiceUsed) {
         indiceShown = true;
-        document.getElementById('indice-overlay').classList.remove('hidden');
         pauseGame();
       }
     }
 
-    function pauseGame() { stopTimers(); }
+    function pauseGame() {
+      stopTimers();
+      gameStates.set('paused');
+    }
     function resumeGame() {
-      if(remaining<=0) { abandonGame(true); return; }
-      startTime = Date.now() - (GAME_DURATION - remaining)*1000;
+      if(remaining <= 0) { abandonGame(true); return; }
+      startTime = Date.now() - (GAME_DURATION - remaining) * 1000;
       updateTimer();
       timerInterval = setInterval(updateTimer, 1000);
-      timeout = setTimeout(() => abandonGame(true), remaining*1000);
+      timeout = setTimeout(() => abandonGame(true), remaining * 1000);
+      gameStates.set('game');
     }
-    function stopTimers() { if(timerInterval) clearInterval(timerInterval); if(timeout) clearTimeout(timeout); if(popTimeout) clearTimeout(popTimeout); timerInterval=timeout=popTimeout=null; }
+    function stopTimers() {
+      if(timerInterval) clearInterval(timerInterval);
+      if(timeout) clearTimeout(timeout);
+      if(popTimeout) clearTimeout(popTimeout);
+      timerInterval=timeout=popTimeout=null;
+    }
 
     function onPlateClick(e) {
       if(!gameActive || isShuffling) return;
       gameActive = false;
       stopTimers();
-      
       const plate = e.currentTarget;
       const currentX = plate.dataset.pos;
-
-      // Animation d'ouverture (toujours sans drapeau)
       plate.style.transition = "transform 0.5s ease-out";
       plate.style.transform = `translateX(${currentX}px) translateY(-60px)`;
-
       setTimeout(() => abandonGame(false), 800);
     }
 
-    function abandonGame(timeUp=false) {
+    function abandonGame(timeUp = false) {
       stopTimers();
       gameActive = false;
-      const elapsed = Math.floor((Date.now()-startTime)/1000);
-      const pts = timeUp ? Math.floor(Math.random()*300)+50 : Math.floor(Math.random()*500)+100;
-      document.getElementById('defeat-time').textContent = elapsed+' secondes';
+      const elapsed = Math.floor((Date.now() - startTime) / 1000);
+      const pts = timeUp ? Math.floor(Math.random() * 300) + 50 : Math.floor(Math.random() * 500) + 100;
+      document.getElementById('defeat-time').textContent = elapsed + ' secondes';
       document.getElementById('defeat-points').textContent = pts;
-      addHist({attempt, time:elapsed, points:pts, date: new Date().toISOString()});
-      const max = hasExtra() ? MAX_ATTEMPTS+1 : MAX_ATTEMPTS;
+      addHist({attempt, time: elapsed, points: pts, date: new Date().toISOString()});
+      const max = hasExtra() ? MAX_ATTEMPTS + 1 : MAX_ATTEMPTS;
       const rest = max - getAttempts();
-      document.getElementById('remaining-attempts').textContent = rest+' tentative(s) restante(s)';
-      navigate('screen-defaite');
-      document.getElementById('indice-overlay').classList.add('hidden');
+      document.getElementById('remaining-attempts').textContent = rest + ' tentative(s) restante(s)';
+      gameStates.set('defeat');
     }
 
-    // Indice overlay
-    document.getElementById('share-indice-btn').addEventListener('click', ()=>{
-      window.open(`https://wa.me/?text=${encodeURIComponent('🇭🇹 Jwenn 10000HTG pou okazyon 18 mai sa a ! Al jwe jwet la gratis: '+SITE_URL)}`, '_blank');
-      document.getElementById('indice-overlay').classList.add('hidden'); indiceUsed=true; resumeGame();
-    });
-    document.getElementById('close-indice-btn').addEventListener('click', ()=>{ document.getElementById('indice-overlay').classList.add('hidden'); resumeGame(); });
+    // TUTORIEL avec animation factice
+    function showTuto() {
+      gameStates.set('tutorial');
+      animateTutorial();
+    }
+    function hideTuto() {
+      gameStates.set('game');
+      startGame();
+    }
+    function animateTutorial() {
+      const finger = document.getElementById('tuto-finger');
+      const plates = document.querySelectorAll('.tuto-plate');
+      finger.style.left = '5px';
+      finger.style.top = '-40px';
+      setTimeout(() => {
+        finger.style.top = '10px';
+        plates[0].style.transform = 'translateY(-20px)';
+        setTimeout(() => {
+          plates[0].style.transform = 'translateY(0)';
+          finger.style.top = '-40px';
+        }, 800);
+      }, 500);
+    }
+    document.getElementById('close-tutorial-btn').addEventListener('click', hideTuto);
 
-    // Boutons
-    document.getElementById('play-btn-home').addEventListener('click', ()=>{ if(isLocked()) navigate('screen-gameover'); else if(!getProfile()) openIns(); else showTuto(); });
-    document.getElementById('abandon-btn').addEventListener('click', ()=> abandonGame(false));
-    document.getElementById('retry-btn').addEventListener('click', ()=>{ if(isLocked()) navigate('screen-gameover'); else startGame(); });
-    document.getElementById('share-defeat-btn').addEventListener('click', ()=>{ window.open(`https://wa.me/?text=${encodeURIComponent("🇭🇹 J'ai joué à Jwenn Drapo'm ! Peux-tu gagner 10000HTG ? Joue ici : "+SITE_URL)}`, '_blank'); });
-    document.getElementById('save-profile-btn').addEventListener('click', ()=>{
-      const p=document.getElementById('pseudo-input').value.trim(), t=document.getElementById('tel-input').value.trim(), m=document.getElementById('mode-input').value;
-      if(!p||!t) { alert('Remplis tous les champs'); return; }
-      saveProfile(p,t,m); closeIns(); showTuto();
+    // BOUTONS D'ACTION
+    document.getElementById('play-btn-home').addEventListener('click', () => {
+      if(isLocked()) { gameStates.set('gameover'); }
+      else if(!getProfile()) { openIns(); }
+      else { showTuto(); }
+    });
+    document.getElementById('abandon-btn').addEventListener('click', () => abandonGame(false));
+    document.getElementById('retry-btn').addEventListener('click', () => {
+      if(isLocked()) { gameStates.set('gameover'); }
+      else { startGame(); }
+    });
+    document.getElementById('share-defeat-btn').addEventListener('click', () => {
+      window.open(`https://wa.me/?text=${encodeURIComponent("🇭🇹 J'ai joué à Jwenn Drapo'm ! Peux-tu gagner 10000HTG ? Joue ici : " + SITE_URL)}`, '_blank');
+    });
+    document.getElementById('save-profile-btn').addEventListener('click', () => {
+      const p = document.getElementById('pseudo-input').value.trim(),
+            t = document.getElementById('tel-input').value.trim(),
+            m = document.getElementById('mode-input').value;
+      if(!p || !t) { alert('Remplis tous les champs'); return; }
+      saveProfile(p, t, m);
+      closeIns();
+      showTuto();
     });
 
+    // Overlay indice
+    document.getElementById('share-indice-btn').addEventListener('click', () => {
+      window.open(`https://wa.me/?text=${encodeURIComponent('🇭🇹 Jwenn 10000HTG pou okazyon 18 mai sa a ! Al jwe jwet la gratis: ' + SITE_URL)}`, '_blank');
+      indiceUsed = true;
+      resumeGame();
+    });
+    document.getElementById('close-indice-btn').addEventListener('click', () => {
+      indiceUsed = true;
+      resumeGame();
+    });
+
+    // Mise à jour du profil
     function updateProfile() {
       const p=getProfile(); if(!p) return;
       document.getElementById('profil-pseudo').textContent=p.pseudo;
@@ -724,7 +801,9 @@
     }
     document.querySelector('[data-screen="screen-profil"]').addEventListener('click', updateProfile);
 
-    if(isLocked()) navigate('screen-gameover'); else navigate('screen-accueil');
+    // Initialisation
+    if(isLocked()) { gameStates.set('gameover'); }
+    else { gameStates.set('accueil'); }
   })();
 </script>
 </body>
