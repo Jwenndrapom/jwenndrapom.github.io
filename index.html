@@ -592,8 +592,9 @@ updateCountdown();
     document.getElementById('close-modal-btn').addEventListener('click', closeIns);
 
     // MODAL 6E CHANCE
-// MODAL 6E CHANCE - VERSION CORRIGÉE POUR MOBILE
+// MODAL 6E CHANCE - VERSION CORRIGÉE POUR MOBIle
 const modalExtra = document.getElementById('modal-extra-chance');
+modalExtra.style.zIndex = '10003'; // Plus haut que tout
 let extraCount = 0;
 let visibilityListener = null;
 
