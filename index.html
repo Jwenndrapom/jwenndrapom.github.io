@@ -7,7 +7,7 @@
 
   <!-- ========== OPEN GRAPH ========== -->
   <meta property="og:title" content="Jwenn Drapo'm 🇭🇹 – Gagne 10 000 Gourdes">
-  <meta property="og:description" content="Retrouve le drapeau sous l'assiette et remporte le grand prix ! Événement du 18 mai.">
+  <meta property="og:description" content="Retrouve le drapeau sous l'assiette dorée et remporte le grand prix ! Événement du 18 mai.">
   <meta property="og:image" content="https://i.ibb.co/qMZmcZH7/In-Shot-20260517-194204430.webp">
   <meta property="og:url" content="https://jwenndrapom.github.io/">
   <meta property="og:type" content="website">
@@ -334,7 +334,7 @@
       text-shadow: 0 0 10px var(--neon-green);
     }
 
-    /* ========== JEU BONNETEAU ========== */
+    /* ========== JEU BONNETEAU – ASSIETTES DORÉES TOURNANTES ========== */
     #game-header {
       display: flex;
       justify-content: space-between;
@@ -359,49 +359,74 @@
       align-items: center;
       justify-content: center;
       background: radial-gradient(circle at 50% 50%, #0d1f0d, #000000);
+      overflow: hidden;
     }
-    .covers-container {
+
+    /* Conteneur qui tourne */
+    .plates-container {
+      width: 260px;
+      height: 260px;
+      position: relative;
+      animation: none;
       display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
+      align-items: center;
       justify-content: center;
     }
-    .cover {
-      width: clamp(80px, 25vw, 120px);
-      height: clamp(80px, 25vw, 120px);
+    .plates-container.spinning {
+      animation: spin 2s linear infinite;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* Chaque assiette est positionnée en absolu, avec une contre‑rotation pour rester droite */
+    .plate {
+      position: absolute;
+      width: 90px;
+      height: 90px;
       border-radius: 50%;
-      background: #222;
+      background: linear-gradient(145deg, #b8860b, #ffd700, #daa520);
       box-shadow: 0 8px 20px rgba(0,0,0,0.5), inset 0 -10px 20px rgba(0,0,0,0.5);
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: transform 0.3s, box-shadow 0.3s;
-      position: relative;
-      overflow: hidden;
+      transition: transform 0.1s ease;
+      /* Contre‑rotation pour rester à l'endroit */
+      animation: counterSpin 2s linear infinite;
+      animation-play-state: inherit; /* hérite de l'état du parent */
     }
-    .cover.red { background: linear-gradient(145deg, #b71c1c, #ff5252); }
-    .cover.blue { background: linear-gradient(145deg, #0d47a1, #448aff); }
-    .cover.yellow { background: linear-gradient(145deg, #f57f17, #ffd740); }
-    .cover:active {
-      transform: scale(0.95);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    @keyframes counterSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(-360deg); }
     }
-    .flag-under {
-      font-size: 40px;
+
+    .plate:active {
+      filter: brightness(1.2);
+    }
+
+    /* Quand on soulève une assiette */
+    .plate.lifted {
+      animation: liftUp 0.5s ease-out forwards !important;
+      pointer-events: none;
+    }
+    @keyframes liftUp {
+      0% { transform: translateY(0); opacity: 1; }
+      50% { transform: translateY(-40px); opacity: 0.8; }
+      100% { transform: translateY(0) scale(0.9); opacity: 0.6; }
+    }
+
+    /* Le drapeau caché (montré brièvement au début) */
+    .flag-hidden {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
+      font-size: 40px;
+      z-index: 5;
     }
-    .cover.lifted {
-      animation: liftUp 0.5s ease-out forwards;
-    }
-    @keyframes liftUp {
-      0% { transform: translateY(0); }
-      50% { transform: translateY(-30px); }
-      100% { transform: translateY(0) scale(0.9); opacity: 0.7; }
-    }
+
     .game-message {
       text-align: center;
       font-size: 1.5rem;
@@ -410,7 +435,7 @@
       margin-top: 20px;
     }
 
-    /* ========== AUTRES ÉLÉMENTS (défaite, etc.) ========== */
+    /* Overlay indice */
     #indice-overlay {
       position: absolute;
       top: 0; left: 0;
@@ -427,6 +452,7 @@
       color: white;
     }
     #indice-overlay.hidden { display: none; }
+
     .defeat-card {
       background: var(--glass);
       backdrop-filter: blur(20px);
@@ -547,7 +573,7 @@
       <span class="tutorial-finger">👇</span>
     </div>
     <p style="color:white; font-size:1.1rem; max-width:300px; margin: 0 auto 20px;">
-      Le drapeau est caché sous une assiette. Suis le mélange et choisis la bonne assiette !
+      Le drapeau est caché sous une assiette dorée. Suis le mélange et choisis la bonne !
     </p>
     <button id="close-tutorial-btn" class="btn-primary">👍 J'ai compris</button>
   </div>
@@ -587,12 +613,12 @@
   <!-- ÉCRAN JEU -->
   <div id="screen-jeu" class="screen">
     <div id="game-header">
-      <span id="timer">⏱️ 00:30</span>
+      <span id="timer">⏱️ 01:00</span>
       <button id="abandon-btn" class="btn-small">🏳️ Abandonner</button>
     </div>
     <div id="game-area">
       <div>
-        <div class="covers-container" id="covers-container"></div>
+        <div class="plates-container" id="plates-container"></div>
         <div class="game-message" id="game-message"></div>
       </div>
     </div>
@@ -669,7 +695,7 @@
   (() => {
     // ==================== CONFIG ====================
     const MAX_ATTEMPTS = 5;
-    const GAME_DURATION = 30; // 30 secondes pour le bonneteau
+    const GAME_DURATION = 60; // secondes
     const SECRET_KEY = "HAITI1805";
     const SITE_URL = "https://jwenndrapom.github.io/";
     const EVENT_END_DATE = new Date('2026-05-18T23:59:59-05:00');
@@ -883,7 +909,7 @@
       document.body.appendChild(s);
     }
 
-    // ==================== JEU BONNETEAU ====================
+    // ==================== JEU BONNETEAU AMÉLIORÉ ====================
     let currentAttempt = 0;
     let gameTimerInterval = null;
     let gameTimeout = null;
@@ -893,65 +919,62 @@
     let indiceUsed = false;
     let popunderTimeout = null;
     let gameActive = false;
-    let flagPosition = -1; // -1 = plus de drapeau (truqué)
-    let gameState = 'idle'; // idle, shuffling, waiting
+    let flagPosition = -1; // jamais de drapeau
 
-    const container = document.getElementById('covers-container');
+    const platesContainer = document.getElementById('plates-container');
     const messageEl = document.getElementById('game-message');
-    const covers = [];
+    const plates = [];
 
-    function createCovers() {
-      container.innerHTML = '';
-      const colors = ['red', 'blue', 'yellow'];
+    function createPlates() {
+      platesContainer.innerHTML = '';
+      // Positionnement des assiettes en triangle (0°, 120°, 240°) autour du centre
+      const radius = 90; // distance du centre
+      const angles = [0, 120, 240];
       for (let i = 0; i < 3; i++) {
-        const cover = document.createElement('div');
-        cover.className = `cover ${colors[i]}`;
-        cover.dataset.index = i;
-        cover.addEventListener('click', onCoverClick);
-        container.appendChild(cover);
-        covers[i] = cover;
+        const plate = document.createElement('div');
+        plate.className = 'plate';
+        plate.dataset.index = i;
+        // Position absolue : centre du conteneur (50% 50%) + décalage
+        const angleRad = (angles[i] * Math.PI) / 180;
+        const x = Math.cos(angleRad) * radius;
+        const y = Math.sin(angleRad) * radius;
+        plate.style.left = `calc(50% - 45px + ${x}px)`;
+        plate.style.top = `calc(50% - 45px + ${y}px)`;
+        plate.addEventListener('click', onPlateClick);
+        platesContainer.appendChild(plate);
+        plates[i] = plate;
       }
     }
 
-    function showFlagUnderCover(index) {
-      // Montre brièvement un drapeau sous la bonne assiette (tromperie)
-      const cover = covers[index];
+    function showFlagBriefly() {
+      // Montre un drapeau au centre, puis le retire
       const flag = document.createElement('span');
-      flag.className = 'flag-under';
+      flag.className = 'flag-hidden';
       flag.textContent = '🇭🇹';
-      cover.appendChild(flag);
-      // Le drapeau disparaît après 0.8s
+      platesContainer.appendChild(flag);
       setTimeout(() => {
         if (flag.parentNode) flag.remove();
-      }, 800);
+      }, 1000);
     }
 
-    async function shuffleCovers() {
-      // Animation de mélange : on fait glisser les assiettes aléatoirement
-      const movements = 5 + Math.floor(Math.random() * 3); // 5-7 échanges
-      for (let i = 0; i < movements; i++) {
-        const a = Math.floor(Math.random() * 3);
-        let b = Math.floor(Math.random() * 3);
-        while (b === a) b = Math.floor(Math.random() * 3);
-        // Échange visuel : on échange les positions en CSS
-        const coverA = covers[a];
-        const coverB = covers[b];
-        // On ajoute une classe qui swap (simple)
-        container.insertBefore(coverB, coverA);
-        await new Promise(resolve => setTimeout(resolve, 300));
-      }
-      // Après le mélange, on enlève le drapeau (flagPosition reste -1)
-      // Message d'attente
-      messageEl.textContent = 'Choisis une assiette !';
-      gameState = 'waiting';
+    function startSpin() {
+      // Démarre la rotation du conteneur et la contre‑rotation des assiettes
+      platesContainer.classList.add('spinning');
     }
 
-    function onCoverClick(e) {
-      if (gameState !== 'waiting') return;
-      gameState = 'idle';
-      // Animation de levée
-      e.currentTarget.classList.add('lifted');
-      // Puis on termine la partie (perdu)
+    function stopSpin() {
+      platesContainer.classList.remove('spinning');
+    }
+
+    function onPlateClick(e) {
+      if (!gameActive || !platesContainer.classList.contains('spinning')) return;
+      // Arrêter l'animation
+      stopSpin();
+      gameActive = false;
+      // Lever l'assiette cliquée
+      const plate = e.currentTarget;
+      plate.classList.add('lifted');
+      // Après l'animation, terminer la partie
       setTimeout(() => {
         abandonGame(false);
       }, 600);
@@ -971,19 +994,17 @@
         return;
       }
       currentAttempt = getAttempts();
-      // Reset
-      createCovers();
+      // Réinitialisation
+      createPlates();
       messageEl.textContent = '';
-      gameState = 'idle';
-      // Montrer le drapeau sous une assiette aléatoire (tromperie)
-      const fakePos = Math.floor(Math.random() * 3);
-      showFlagUnderCover(fakePos);
-      // Lancer le mélange après 1.5s
+      stopSpin();
+      gameActive = false;
+      // On montre le drapeau au centre brièvement
+      showFlagBriefly();
+      // Après 1.5s, on démarre la rotation et le chrono
       setTimeout(() => {
-        shuffleCovers().then(() => {
-          // Le drapeau n'existe plus, flagPosition = -1
-          startTimers();
-        });
+        startSpin();
+        startTimers();
       }, 1500);
 
       function startTimers() {
@@ -995,14 +1016,14 @@
         gameTimerInterval = setInterval(updateTimerDisplay, 1000);
         gameTimeout = setTimeout(() => abandonGame(true), GAME_DURATION * 1000);
 
-        // Popunder programmé
+        // Popunder programmé (2m30s)
         if (canShowPopunderToday()) {
           popunderTimeout = setTimeout(() => {
             if (gameActive) {
               triggerPopunder();
               markPopunderShownToday();
             }
-          }, 150000); // 2m30s (mais la partie dure 30s, donc ne se déclenchera pas, sauf si on prolonge ? On peut ajuster)
+          }, 150000); // 2m30s
         }
       }
 
@@ -1017,7 +1038,7 @@
       const secs = (remainingSeconds % 60).toString().padStart(2,'0');
       document.getElementById('timer').textContent = `⏱️ ${mins}:${secs}`;
 
-      if (remainingSeconds <= 10 && remainingSeconds > 0 && !indiceShown && !indiceUsed) {
+      if (remainingSeconds <= 30 && remainingSeconds > 0 && !indiceShown && !indiceUsed) {
         indiceShown = true;
         document.getElementById('indice-overlay').classList.remove('hidden');
         pauseGame();
@@ -1026,6 +1047,9 @@
 
     function pauseGame() {
       stopTimers();
+      // La rotation continue visuellement ? On peut laisser tourner, mais le temps est figé.
+      // Pour plus de clarté, on arrête aussi la rotation.
+      stopSpin();
     }
 
     function resumeGame() {
@@ -1033,10 +1057,20 @@
         abandonGame(true);
         return;
       }
+      // On redémarre la rotation
+      startSpin();
       startTime = Date.now() - (GAME_DURATION - remainingSeconds) * 1000;
       updateTimerDisplay();
       gameTimerInterval = setInterval(updateTimerDisplay, 1000);
       gameTimeout = setTimeout(() => abandonGame(true), remainingSeconds * 1000);
+      if (!popunderTimeout && canShowPopunderToday() && remainingSeconds > 150) {
+        popunderTimeout = setTimeout(() => {
+          if (gameActive) {
+            triggerPopunder();
+            markPopunderShownToday();
+          }
+        }, (remainingSeconds - 150) * 1000);
+      }
     }
 
     function stopTimers() {
@@ -1047,6 +1081,7 @@
 
     function abandonGame(timeUp = false) {
       stopTimers();
+      stopSpin();
       gameActive = false;
       const elapsed = Math.floor((Date.now() - startTime) / 1000);
       const points = timeUp ? Math.floor(Math.random()*300)+50 : Math.floor(Math.random()*500)+100;
@@ -1063,7 +1098,7 @@
       document.getElementById('indice-overlay').classList.add('hidden');
     }
 
-    // Boutons overlay indice
+    // Overlay indice
     document.getElementById('share-indice-btn').addEventListener('click', function() {
       const text = `🇭🇹 Jwenn 10000HTG pou okazyon 18 mai sa a ! Al jwe jwet la gratis: ${SITE_URL}`;
       window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
@@ -1146,4 +1181,4 @@
   })();
 </script>
 </body>
-  </html>
+</html>
