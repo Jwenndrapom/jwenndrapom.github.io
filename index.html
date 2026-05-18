@@ -297,16 +297,19 @@
     </div>
   </div>
 
-  <!-- ÉCRAN PARTAGE OBLIGATOIRE (après 1 partie) -->
-  <div id="screen-mustshare" class="screen">
-    <div class="defeat-card">
-      <h2 style="color:var(--gold)">🔒 Parties bloquées</h2>
-      <p>Tu as utilisé ta partie gratuite. Partage à 10 personnes pour débloquer 4 autres parties !</p>
-      <div id="mustshare-progress-text" style="margin:10px 0">0 / 10 partages</div>
-      <div class="progress-bar-bg"><div id="mustshare-progress-fill" style="width:0%;height:8px;background:var(--neon-green);border-radius:4px"></div></div>
-      <button id="btn-mustshare" class="btn-share">📤 Partager sur WhatsApp</button>
+  <<!-- ÉCRAN PARTAGE OBLIGATOIRE (basé sur le temps) -->
+<div id="screen-mustshare" class="screen">
+  <div class="defeat-card">
+    <h2 style="color:var(--gold)">🔒 Parties bloquées</h2>
+    <p>Tu as utilisé ta partie gratuite.  
+       Partage ce jeu et reste un moment sur WhatsApp pour débloquer 4 autres parties !</p>
+    <div id="mustshare-progress-text" style="margin:10px 0">0% (0s / 60s)</div>
+    <div class="progress-bar-bg">
+      <div id="mustshare-progress-fill" style="width:0%;height:8px;background:var(--neon-green);border-radius:4px"></div>
     </div>
+    <button id="btn-mustshare" class="btn-share">📤 Partager sur WhatsApp</button>
   </div>
+</div>
 
   <!-- ÉCRAN LEADERBOARD -->
   <div id="screen-leaderboard" class="screen">
@@ -435,49 +438,75 @@
     function closeIns() { modalIns.classList.remove('active'); }
     document.getElementById('close-modal-btn').addEventListener('click', closeIns);
 
-    // PARTAGE OBLIGATOIRE
-    let shareCount = 0;
-    let shareListener = null;
+    // PARTAGE OBLIGATOIRE (basé sur le temps passé hors de la page)
+const TIME_REQUIRED = 60; // secondes à cumuler pour débloquer
+let shareTotalTime = 0;   // temps cumulé en secondes
+let shareLastClick = 0;   // timestamp du dernier clic sur le bouton partager
+let shareTimerInterval = null;
 
-    function openMustShare() {
-      shareCount = 0;
-      document.getElementById('mustshare-progress-text').textContent = '0 / 10 partages';
-      document.getElementById('mustshare-progress-fill').style.width = '0%';
-      gameStates.set('mustshare');
-      
-      if (shareListener) document.removeEventListener('visibilitychange', shareListener);
-      shareListener = function() {
-        if (document.visibilityState === 'visible' && shareCount < 10) {
-          shareCount++;
-          document.getElementById('mustshare-progress-text').textContent = shareCount + ' / 10 partages';
-          document.getElementById('mustshare-progress-fill').style.width = (shareCount * 10) + '%';
-          if (shareCount >= 10) {
-            setUnlocked(true);
-            gameStates.set('accueil');
-            alert('🎉 4 parties débloquées !');
-          }
-        }
-      };
-      document.addEventListener('visibilitychange', shareListener);
-    }
+// Charge le temps déjà cumulé (pour persister entre les sessions)
+function loadShareTime() {
+  const d = secureGet('shareTime');
+  return d ? d.total : 0;
+}
+function saveShareTime(total) {
+  secureSet('shareTime', { total: total });
+}
 
-    document.getElementById('btn-mustshare').addEventListener('click', function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      var message = "Je tente de gagner 10 000 HTG sur Jwenn Drapo'm ! " + SITE_URL;
-      var waUrl = "https://wa.me/?text=" + encodeURIComponent(message);
-      window.location.href = waUrl;
-      if (shareCount < 10) {
-        shareCount++;
-        document.getElementById('mustshare-progress-text').textContent = shareCount + ' / 10 partages';
-        document.getElementById('mustshare-progress-fill').style.width = (shareCount * 10) + '%';
-        if (shareCount >= 10) {
-          setUnlocked(true);
-          gameStates.set('accueil');
-          alert('🎉 4 parties débloquées !');
-        }
+// Initialisation
+shareTotalTime = loadShareTime();
+
+function updateShareUI() {
+  const percent = Math.min(100, Math.floor((shareTotalTime / TIME_REQUIRED) * 100));
+  document.getElementById('mustshare-progress-text').textContent =
+    percent + '% (' + Math.floor(shareTotalTime) + 's / ' + TIME_REQUIRED + 's)';
+  document.getElementById('mustshare-progress-fill').style.width = percent + '%';
+}
+
+// Appelé quand l'utilisateur revient sur la page après un partage
+function handleVisibilityChange() {
+  if (document.visibilityState === 'visible' && shareLastClick > 0) {
+    const now = Date.now();
+    const elapsed = (now - shareLastClick) / 1000; // secondes
+    if (elapsed > 0) {
+      shareTotalTime += elapsed;
+      saveShareTime(shareTotalTime);
+      updateShareUI();
+      if (shareTotalTime >= TIME_REQUIRED) {
+        setUnlocked(true);
+        // Réinitialise pour la prochaine fois
+        shareTotalTime = 0;
+        saveShareTime(0);
+        gameStates.set('accueil');
+        alert('🎉 4 parties débloquées !');
       }
-    });
+    }
+    shareLastClick = 0;
+  }
+}
+
+// Écouteur d'événement pour le retour sur la page
+document.addEventListener('visibilitychange', handleVisibilityChange);
+
+// Bouton partager
+document.getElementById('btn-mustshare').addEventListener('click', function(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  
+  // Enregistre l'instant du clic
+  shareLastClick = Date.now();
+  
+  // Redirection vers WhatsApp
+  var message = "Je tente de gagner 10 000 HTG sur Jwenn Drapo'm ! " + SITE_URL;
+  var waUrl = "https://wa.me/?text=" + encodeURIComponent(message);
+  window.location.href = waUrl;
+});
+
+// Met à jour l'UI au chargement de l'écran
+function openMustShare() {
+  updateShareUI();
+  gameStates.set('mustshare');
+}
 
     function getToday() { const n=new Date(); return `${n.getFullYear()}-${n.getMonth()+1}-${n.getDate()}`; }
     function canPopunder() { const l=secureGet('popDate'); return !l || l.date!==getToday(); }
