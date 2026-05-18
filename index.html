@@ -53,7 +53,6 @@
       flex-direction: column;
     }
 
-    /* ========== ÉCRANS ========== */
     .screen {
       flex: 1;
       overflow-y: auto;
@@ -62,50 +61,26 @@
       padding-bottom: calc(70px + var(--safe-bottom) + 20px);
       display: none;
     }
-    .screen.active {
-      display: block;
-    }
-    #screen-inscription.active {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      text-align: center;
-    }
-    #screen-jeu.active {
-      display: flex;
-      flex-direction: column;
-      padding: 0;
-      padding-bottom: 0;
-    }
+    .screen.active { display: block; }
+    #screen-inscription.active { display: flex; flex-direction: column; justify-content: center; text-align: center; }
+    #screen-jeu.active { display: flex; flex-direction: column; padding: 0; padding-bottom: 0; }
 
-    /* ========== BOTTOM BAR FIXE ========== */
     #bottom-bar {
-      position: fixed;
-      bottom: 0; left: 0; width: 100%;
-      background: var(--bar-bg);
-      backdrop-filter: blur(20px);
-      display: flex;
-      justify-content: space-around;
+      position: fixed; bottom: 0; left: 0; width: 100%;
+      background: var(--bar-bg); backdrop-filter: blur(20px);
+      display: flex; justify-content: space-around;
       padding: 8px 0 calc(8px + var(--safe-bottom));
       border-top: 1px solid rgba(255,255,255,0.15);
-      z-index: 9999;
-      box-shadow: 0 -4px 15px rgba(0,212,255,0.2);
+      z-index: 9999; box-shadow: 0 -4px 15px rgba(0,212,255,0.2);
     }
     .bar-btn {
-      background: transparent; border: none;
-      color: #aaa; font-size: 0.7rem;
+      background: transparent; border: none; color: #aaa; font-size: 0.7rem;
       display: flex; flex-direction: column; align-items: center;
-      cursor: pointer; transition: 0.25s;
-      padding: 5px 10px; border-radius: 12px;
+      cursor: pointer; transition: 0.25s; padding: 5px 10px; border-radius: 12px;
     }
-    .bar-btn.active { 
-      color: var(--neon-blue); 
-      text-shadow: 0 0 10px var(--neon-blue);
-      background: rgba(255,255,255,0.05);
-    }
+    .bar-btn.active { color: var(--neon-blue); text-shadow: 0 0 10px var(--neon-blue); background: rgba(255,255,255,0.05); }
     .bar-btn span { font-size: 1.6rem; }
 
-    /* ========== MODAL & BOUTONS ========== */
     .modal-overlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(0,0,0,0.75); backdrop-filter: blur(8px);
@@ -116,8 +91,7 @@
     .modal-card {
       background: var(--surface); backdrop-filter: blur(30px);
       border-radius: var(--radius); padding: clamp(20px, 5vw, 30px);
-      width: 90%; max-width: 400px;
-      border: 1px solid rgba(255,255,255,0.2);
+      width: 90%; max-width: 400px; border: 1px solid rgba(255,255,255,0.2);
       box-shadow: 0 20px 40px rgba(0,0,0,0.5);
       transform: scale(0.9); transition: transform 0.3s; color: white;
     }
@@ -150,7 +124,6 @@
       border-radius: 30px; font-weight: bold; cursor: pointer; transition: 0.2s;
     }
 
-    /* ========== COMPTE À REBOURS ========== */
     #countdown-box {
       background: var(--glass); backdrop-filter: blur(10px);
       border: 1px solid rgba(255,255,255,0.15); border-radius: var(--radius);
@@ -160,11 +133,8 @@
       font-size: clamp(1.5rem, 5vw, 2rem); font-weight: bold; color: var(--gold);
       display: flex; justify-content: center; gap: 6px; text-shadow: 0 0 15px var(--gold);
     }
-    #countdown span {
-      background: rgba(0,0,0,0.5); padding: 8px 12px; border-radius: 10px; color: white;
-    }
+    #countdown span { background: rgba(0,0,0,0.5); padding: 8px 12px; border-radius: 10px; color: white; }
 
-    /* ========== WINNERS FEED ========== */
     #winners-feed, #winners-feed-full {
       background: var(--glass); border-radius: var(--radius); padding: 12px; margin: 15px 0;
       border: 1px solid rgba(255,215,0,0.3); max-height: 200px; overflow-y: auto; color: white;
@@ -176,7 +146,6 @@
     .winner-toast:last-child { border-bottom: none; }
     .winner-toast .amount { color: var(--gold); font-weight: bold; margin-left: auto; }
 
-    /* ========== PROFIL ========== */
     .profil-card {
       background: var(--glass); backdrop-filter: blur(15px);
       border-radius: var(--radius); padding: 20px; border: 1px solid rgba(255,255,255,0.15);
@@ -187,98 +156,42 @@
       margin: 0 auto 10px; display: flex; align-items: center; justify-content: center;
       font-size: 2.5rem; color: #ccc;
     }
-    .attempts-left {
-      font-size: 1.4rem; font-weight: bold; color: var(--neon-green); text-shadow: 0 0 10px var(--neon-green);
-    }
+    .attempts-left { font-size: 1.4rem; font-weight: bold; color: var(--neon-green); text-shadow: 0 0 10px var(--neon-green); }
 
-    /* ========== JEU BONNETEAU CASINO ========== */
     #game-area {
       flex: 1;
       background: radial-gradient(ellipse at center, #5c3a21 0%, #201308 100%);
       box-shadow: inset 0 0 50px rgba(0,0,0,0.8);
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      position: relative; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
       border-top: 2px solid rgba(255, 215, 0, 0.2);
     }
-    .bowls-container {
-      width: 320px;
-      height: 120px;
-      position: relative;
-    }
+    .bowls-container { width: 320px; height: 120px; position: relative; }
     .plate {
-      position: absolute;
-      width: 80px; 
-      height: 80px;
-      border-radius: 50%;
+      position: absolute; width: 80px; height: 80px; border-radius: 50%;
       background: radial-gradient(circle at 30% 30%, #ffdf00, #daa520 60%, #b8860b);
       box-shadow: 0 15px 25px rgba(0,0,0,0.8), inset 0 -4px 10px rgba(255,255,255,0.4), inset 0 4px 10px rgba(0,0,0,0.4);
       border: 2px solid #e8b923;
-      display: flex; 
-      align-items: center; 
-      justify-content: center;
-      cursor: pointer;
-      transition: transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
-      z-index: 2;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1); z-index: 2;
     }
     .plate::after {
-      content: "";
-      position: absolute;
-      top: 15%; left: 15%;
-      width: 70%; height: 70%;
-      border-radius: 50%;
-      background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.15), transparent);
-      pointer-events: none;
+      content: ""; position: absolute; top: 15%; left: 15%; width: 70%; height: 70%; border-radius: 50%;
+      background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.15), transparent); pointer-events: none;
     }
     .flag-hidden {
-      position: absolute;
-      font-size: 35px;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 1;
-      transition: opacity 0.3s;
-      pointer-events: none;
+      position: absolute; font-size: 35px; top: 50%; transform: translateY(-50%);
+      z-index: 1; transition: opacity 0.3s; pointer-events: none;
     }
 
-    /* ========== OVERLAYS TUTORIEL & INDICE ========== */
     #tutorial-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 10001;
-      background: rgba(0,0,0,0.85);
-      backdrop-filter: blur(10px);
-      display: none;
-      align-items: center;
-      justify-content: center;
+      position: fixed; inset: 0; z-index: 10001;
+      background: rgba(0,0,0,0.85); backdrop-filter: blur(10px);
+      display: none; align-items: center; justify-content: center;
     }
-    #tutorial-overlay.active {
-      display: flex;
-    }
-    #indice-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 10002;
-      background: rgba(0,0,0,0.85);
-      backdrop-filter: blur(10px);
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      text-align: center;
-      color: white;
-    }
-    #indice-overlay.active {
-      display: flex;
-    }
-    #tutorial-animation {
-      pointer-events: none;
-    }
-    .tuto-plate {
-      transition: transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
-    }
+    #tutorial-overlay.active { display: flex; }
+    #tutorial-animation { pointer-events: none; }
+    .tuto-plate { transition: transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1); }
 
     .defeat-card {
       background: var(--glass); backdrop-filter: blur(20px);
@@ -286,9 +199,14 @@
       margin: 10px 0; border: 1px solid rgba(255,255,255,0.2); color: white;
     }
 
-    @media (min-width: 768px) {
-      #app { width: 100%; height: 100vh; }
+    #share-modal {
+      position: fixed; inset: 0; z-index: 10003;
+      background: rgba(0,0,0,0.85); backdrop-filter: blur(10px);
+      display: none; align-items: center; justify-content: center;
     }
+    #share-modal.active { display: flex; }
+
+    @media (min-width: 768px) { #app { width: 100%; height: 100vh; } }
   </style>
 </head>
 <body>
@@ -305,20 +223,20 @@
     </div>
   </div>
 
-  <!-- MODAL 6E CHANCE -->
-  <div id="modal-extra-chance" class="modal-overlay">
+  <!-- MODAL PARTAGE (après 1 partie) -->
+  <div id="share-modal">
     <div class="modal-card" style="text-align:center">
-      <h2 style="color:var(--gold)">🎁 6ᵉ chance !</h2>
-      <p style="color:white">Partage ce jeu à 10 personnes pour obtenir une dernière tentative.</p>
+      <h2 style="color:var(--gold)">🎁 Débloque 4 parties !</h2>
+      <p style="color:white">Partage ce jeu à 10 personnes pour obtenir 4 autres tentatives.</p>
       <div id="share-progress-text" style="margin:10px 0">0 / 10 partages</div>
-      <div class="progress-bar-bg"><div id="share-progress-fill" class="progress-bar-fill" style="width:0%"></div></div>
-      <button id="btn-share-extra" class="btn-share">📤 Partager maintenant</button>
-      <button id="close-extra-modal" class="btn-small" style="width:100%;margin-top:10px">Annuler</button>
+      <div class="progress-bar-bg"><div id="share-progress-fill" class="progress-bar-fill" style="width:0%;height:8px;background:var(--neon-green);border-radius:4px"></div></div>
+      <button id="btn-share-main" class="btn-share">📤 Partager sur WhatsApp</button>
+      <button id="close-share-modal" class="btn-small" style="width:100%;margin-top:10px">Annuler</button>
     </div>
   </div>
 
   <!-- TUTORIEL -->
-  <div id="tutorial-overlay" class="modal-overlay">
+  <div id="tutorial-overlay">
     <div class="modal-card" style="text-align:center">
       <h2 style="color:var(--neon-blue)">Regarde bien !</h2>
       <p style="color:white;margin:10px 0">Le drapeau est caché sous une assiette dorée, puis les assiettes se mélangent.</p>
@@ -344,37 +262,23 @@
     </div>
     <div id="players-counter">👥 <span id="total-players">145 287</span> personnes ont déjà joué !</div>
     <button id="play-btn-home" class="btn-primary">🎮 Jouer maintenant</button>
-    <!-- Derniers gagnants remonte ici, sous le bouton Jouer -->
-    <h2 style="color:var(--neon-blue);margin-top:20px">🏆 gagnants récents </h2>
+    <h2 style="color:var(--neon-blue);margin-top:20px">🏆 gagnants récents</h2>
     <div id="winners-feed"></div>
-    <!-- Bannière publicitaire en bas -->
     <div style="margin:15px 0;text-align:center">
-      <script>
-        atOptions = {'key':'bfa34ea21f0dd2c4048fdf4cf8ddf94e','format':'iframe','height':250,'width':300,'params':{}};
-      </script>
+      <script>atOptions = {'key':'bfa34ea21f0dd2c4048fdf4cf8ddf94e','format':'iframe','height':250,'width':300,'params':{}};</script>
       <script src="https://penguinsincequalify.com/bfa34ea21f0dd2c4048fdf4cf8ddf94e/invoke.js"></script>
     </div>
   </div>
 
   <!-- ÉCRAN JEU -->
   <div id="screen-jeu" class="screen">
-    <div id="game-header">
+    <div id="game-header" style="display:flex;justify-content:space-between;padding:10px 15px;align-items:center">
       <span id="timer">⏱️ 01:00</span>
       <button id="abandon-btn" class="btn-small">🏳️ Abandonner</button>
     </div>
     <div id="game-area">
-      <div id="bowls-container" class="bowls-container">
-        <!-- Les assiettes dorées et le drapeau seront générés par le JS -->
-      </div>
+      <div id="bowls-container" class="bowls-container"></div>
     </div>
-  </div>
-
-  <!-- OVERLAY INDICE -->
-  <div id="indice-overlay">
-    <h3 style="color:var(--neon-pink)">⏳ Plus que 7 secondes écroulé !</h3>
-    <p>Partage à 10 personnes sur WhatsApp pour obtenir un indice.</p>
-    <button id="share-indice-btn" class="btn-share">📤 Partager et obtenir l'indice</button>
-    <button id="close-indice-btn" class="btn-small" style="margin-top:10px">Fermer</button>
   </div>
 
   <!-- ÉCRAN DÉFAITE -->
@@ -385,26 +289,28 @@
       <p>Points accumulés : <span id="defeat-points" style="font-size:2rem;color:var(--gold)"></span></p>
       <p style="margin-top:10px">Parties restantes : <strong id="remaining-attempts"></strong></p>
       <div style="margin:15px 0;min-height:250px;text-align:center">
-  <script async src="https://penguinsincequalify.com/623647ad2d51b4896cf878366ccdd192/invoke.js"></script>
-  <div id="container-623647ad2d51b4896cf878366ccdd192"></div>
+        <script async src="https://penguinsincequalify.com/623647ad2d51b4896cf878366ccdd192/invoke.js"></script>
+        <div id="container-623647ad2d51b4896cf878366ccdd192"></div>
       </div>
       <button id="retry-btn" class="btn-primary">🔄 Réessayer</button>
       <button id="share-defeat-btn" class="btn-share">📤 Partager sur WhatsApp</button>
     </div>
   </div>
 
-  <!-- ÉCRAN GAME OVER -->
-  <div id="screen-gameover" class="screen">
+  <!-- ÉCRAN PARTAGE OBLIGATOIRE (après 1 partie) -->
+  <div id="screen-mustshare" class="screen">
     <div class="defeat-card">
-      <h2 style="color:var(--neon-red)">😔 Partie terminée</h2>
-      <p>Vos 5 chances sont épuisées. Partage à 10 personnes pour une autre chance !</p>
-      <button id="btn-extra-chance" class="btn-share">🎁 Obtenir une autre chance</button>
+      <h2 style="color:var(--gold)">🔒 Parties bloquées</h2>
+      <p>Tu as utilisé ta partie gratuite. Partage à 10 personnes pour débloquer 4 autres parties !</p>
+      <div id="mustshare-progress-text" style="margin:10px 0">0 / 10 partages</div>
+      <div class="progress-bar-bg"><div id="mustshare-progress-fill" style="width:0%;height:8px;background:var(--neon-green);border-radius:4px"></div></div>
+      <button id="btn-mustshare" class="btn-share">📤 Partager sur WhatsApp</button>
     </div>
   </div>
 
   <!-- ÉCRAN LEADERBOARD -->
   <div id="screen-leaderboard" class="screen">
-    <h2 style="color:var(--neon-green)">🏆 gagnants récents </h2>
+    <h2 style="color:var(--neon-green)">🏆 gagnants récents</h2>
     <div id="winners-feed-full"></div>
     <p style="text-align:center;margin-top:15px">Mise à jour toutes les 10 secondes</p>
   </div>
@@ -438,13 +344,11 @@
 <script>
   (() => {
     const MAX_ATTEMPTS = 5;
-    const GAME_DURATION = 60; // secondes pour une partie
+    const GAME_DURATION = 60;
     const SECRET_KEY = "HAITI1805";
     const SITE_URL = "https://jwenndrapom.github.io/";
-    // Date de fin réelle : 18 mai 2026 à 23:59:59 (heure d'Haïti)
     const COUNTDOWN_END = new Date('2026-05-18T23:59:59-05:00');
 
-    // STOCKAGE SÉCURISÉ
     function hash(s) { let h=5381; for(let i=0;i<s.length;i++) h=(h*33)^s.charCodeAt(i); return (h>>>0).toString(16).toUpperCase().padStart(8,'0'); }
     function secureSet(k,v) { const j=JSON.stringify(v), c=hash(j+SECRET_KEY); localStorage.setItem(k,btoa(JSON.stringify({d:j,h:c}))); }
     function secureGet(k) { const r=localStorage.getItem(k); if(!r) return null; try { const p=JSON.parse(atob(r)); if(p.h!==hash(p.d+SECRET_KEY)) { localStorage.removeItem(k); return null; } return JSON.parse(p.d); } catch(e) { localStorage.removeItem(k); return null; } }
@@ -453,14 +357,14 @@
     function getProfile() { return secureGet('profil'); }
     function getAttempts() { const d=secureGet('attempts'); return d?d.count:0; }
     function setAttempts(c) { secureSet('attempts',{count:c}); }
-    function hasExtra() { const d=secureGet('extra'); return d?d.used:false; }
-    function setExtra(v) { secureSet('extra',{used:v}); }
-    function incAttempt() { const c=getAttempts(), max=hasExtra()?MAX_ATTEMPTS+1:MAX_ATTEMPTS; if(c>=max) return false; setAttempts(c+1); return true; }
-    function isLocked() { return getAttempts()>=(hasExtra()?MAX_ATTEMPTS+1:MAX_ATTEMPTS); }
+    function hasUnlocked() { const d=secureGet('unlocked'); return d?d.value:false; }
+    function setUnlocked(v) { secureSet('unlocked',{value:v}); }
+    function incAttempt() { const c=getAttempts(); if(c>=MAX_ATTEMPTS) return false; setAttempts(c+1); return true; }
+    function isLocked() { return getAttempts()>=MAX_ATTEMPTS; }
+    function mustShare() { return getAttempts()>=1 && !hasUnlocked(); }
     function loadHist() { const d=secureGet('hist'); return d?d.entries:[]; }
     function addHist(e) { let h=loadHist(); h.push(e); if(h.length>20)h.shift(); secureSet('hist',{entries:h}); }
 
-    // GESTION D'ÉTAT CENTRALISÉE
     const barBtns = document.querySelectorAll('.bar-btn');
     const gameStates = {
       current: 'accueil',
@@ -468,46 +372,16 @@
         this.current = state;
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
         document.getElementById('tutorial-overlay').classList.remove('active');
-        document.getElementById('indice-overlay').classList.remove('active');
+        document.getElementById('share-modal').classList.remove('active');
         const bottomBar = document.getElementById('bottom-bar');
-
         switch(state) {
-          case 'accueil':
-            document.getElementById('screen-accueil').classList.add('active');
-            bottomBar.style.display = 'flex';
-            break;
-          case 'tutorial':
-            document.getElementById('tutorial-overlay').classList.add('active');
-            bottomBar.style.display = 'none';
-            break;
-          case 'jeu':
-          case 'game': // alias
-            document.getElementById('screen-jeu').classList.add('active');
-            bottomBar.style.display = 'none';
-            break;
-          case 'defeat':
-            document.getElementById('screen-defaite').classList.add('active');
-            bottomBar.style.display = 'none';
-            break;
-          case 'gameover':
-            document.getElementById('screen-gameover').classList.add('active');
-            bottomBar.style.display = 'none';
-            break;
-          case 'paused':
-            document.getElementById('screen-jeu').classList.add('active');
-            document.getElementById('indice-overlay').classList.add('active');
-            bottomBar.style.display = 'none';
-            break;
-          case 'leaderboard':
-            document.getElementById('screen-leaderboard').classList.add('active');
-            bottomBar.style.display = 'flex';
-            break;
-          case 'profil':
-            document.getElementById('screen-profil').classList.add('active');
-            updateProfile();
-            bottomBar.style.display = 'flex';
-            break;
-          default: break;
+          case 'accueil': document.getElementById('screen-accueil').classList.add('active'); bottomBar.style.display = 'flex'; break;
+          case 'tutorial': document.getElementById('tutorial-overlay').classList.add('active'); bottomBar.style.display = 'none'; break;
+          case 'jeu': case 'game': document.getElementById('screen-jeu').classList.add('active'); bottomBar.style.display = 'none'; break;
+          case 'defeat': document.getElementById('screen-defaite').classList.add('active'); bottomBar.style.display = 'none'; break;
+          case 'mustshare': document.getElementById('screen-mustshare').classList.add('active'); bottomBar.style.display = 'none'; break;
+          case 'leaderboard': document.getElementById('screen-leaderboard').classList.add('active'); bottomBar.style.display = 'flex'; break;
+          case 'profil': document.getElementById('screen-profil').classList.add('active'); updateProfile(); bottomBar.style.display = 'flex'; break;
         }
         if (bottomBar.style.display === 'flex') {
           barBtns.forEach(b => {
@@ -518,149 +392,93 @@
       }
     };
 
-    // Navigation : les boutons de la barre appellent cette fonction
     function navigate(id) {
       const state = id.replace('screen-', '');
-      if (state === 'jeu') {
-        // L'onglet "Jouer" lance le jeu (comme le bouton Jouer)
-        handlePlay();
-        return;
-      }
+      if (state === 'jeu') { handlePlay(); return; }
       gameStates.set(state);
     }
     barBtns.forEach(b => b.addEventListener('click', () => navigate(b.dataset.screen)));
 
-    // Fonction commune pour lancer le jeu (utilisée par bouton Jouer et onglet Jouer)
     function handlePlay() {
-      if(isLocked()) { gameStates.set('gameover'); }
+      if(isLocked()) { gameStates.set('mustshare'); }
+      else if(mustShare()) { gameStates.set('mustshare'); }
       else if(!getProfile()) { openIns(); }
       else { showTuto(); }
     }
 
-function updateCountdown() {
-  const diff = COUNTDOWN_END - new Date();
-  if(diff <= 0) {
-    document.getElementById('cd-days').textContent = '00';
-    document.getElementById('cd-hours').textContent = '00';
-    document.getElementById('cd-mins').textContent = '00';
-    document.getElementById('cd-secs').textContent = '00';
-    return;
-  }
-  const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
-  const m = Math.floor((diff / (1000 * 60)) % 60);
-  const s = Math.floor((diff / 1000) % 60);
-  document.getElementById('cd-days').textContent = String(d).padStart(2, '0');
-  document.getElementById('cd-hours').textContent = String(h).padStart(2, '0');
-  document.getElementById('cd-mins').textContent = String(m).padStart(2, '0');
-  document.getElementById('cd-secs').textContent = String(s).padStart(2, '0');
-}
-setInterval(updateCountdown, 1000);
-updateCountdown();
-    // LEADERBOARD : 50 gagnants crédibles (noms haïtiens réalistes)
+    function updateCountdown() {
+      const diff = COUNTDOWN_END - new Date();
+      if(diff<=0) { ['days','hours','mins','secs'].forEach(id=>document.getElementById('cd-'+id).textContent='00'); return; }
+      const d=Math.floor(diff/(1000*60*60*24)), h=Math.floor((diff/(1000*60*60))%24), m=Math.floor((diff/(1000*60))%60), s=Math.floor((diff/1000)%60);
+      document.getElementById('cd-days').textContent=String(d).padStart(2,'0');
+      document.getElementById('cd-hours').textContent=String(h).padStart(2,'0');
+      document.getElementById('cd-mins').textContent=String(m).padStart(2,'0');
+      document.getElementById('cd-secs').textContent=String(s).padStart(2,'0');
+    }
+    setInterval(updateCountdown, 1000); updateCountdown();
+
     const credibleWinners = [
-      "Jean-Baptiste M.","Rose-Myrtha S.","Claudel J.","Wilner P.","Youseline T.",
-      "Steeve R.","Wildine E.","Michaëlle C.","Ricardo A.","Sophie P.",
-      "Davidson F.","Nathalie B.","Marc K.","Chantal V.","Kensley H.",
-      "Emmanuel S.","Magalie T.","Pierre L.","Claude J.","Remy D.",
-      "Frantz D.","Marie-Lyne V.","Ernso F.","Roseline C.","Witchner P.",
-      "Nadine J.","Jean-Robert L.","Edeline M.","Fritzner A.","Marlène D.",
-      "Jean-Wesner B.","Sophonie T.","Roodeline P.","Jocelyn R.","Rose-Berthe C.",
-      "Kesnel D.","Marie-Flore V.","Woodly E.","Guerline J.","Ricot M.",
-      "Myrtha L.","Davidson C.","Stéphanie A.","Jean-Junior F.","Samantha R.",
-      "Pedro G.","Vanessa H.","Rodrigue K.","Marjorie N.","Wiseline O."
+      "Jean-Baptiste M.","Rose-Myrtha S.","Claudel J.","Wilner P.","Youseline T.","Steeve R.","Wildine E.","Michaëlle C.","Ricardo A.","Sophie P.","Davidson F.","Nathalie B.","Marc K.","Chantal V.","Kensley H.","Emmanuel S.","Magalie T.","Pierre L.","Claude J.","Remy D.","Frantz D.","Marie-Lyne V.","Ernso F.","Roseline C.","Witchner P.","Nadine J.","Jean-Robert L.","Edeline M.","Fritzner A.","Marlène D.","Jean-Wesner B.","Sophonie T.","Roodeline P.","Jocelyn R.","Rose-Berthe C.","Kesnel D.","Marie-Flore V.","Woodly E.","Guerline J.","Ricot M.","Myrtha L.","Davidson C.","Stéphanie A.","Jean-Junior F.","Samantha R.","Pedro G.","Vanessa H.","Rodrigue K.","Marjorie N.","Wiseline O."
     ];
     function updateWinners() {
-      let html = '';
-      credibleWinners.forEach(name => {
-        html += `<div class="winner-toast">🏆 ${name} <span class="amount">+10 000 HTG</span></div>`;
-      });
-      const feed1 = document.getElementById('winners-feed');
-      const feed2 = document.getElementById('winners-feed-full');
-      if(feed1) feed1.innerHTML = html;
-      if(feed2) feed2.innerHTML = html;
+      let html='';
+      credibleWinners.forEach(name => { html += `<div class="winner-toast">🏆 ${name} <span class="amount">+10 000 HTG</span></div>`; });
+      const feed1=document.getElementById('winners-feed'), feed2=document.getElementById('winners-feed-full');
+      if(feed1)feed1.innerHTML=html; if(feed2)feed2.innerHTML=html;
     }
     updateWinners();
 
-    // JOUEURS COUNTER (fixe, ne s'incrémente plus)
     document.getElementById('total-players').textContent = '145 287';
 
-    // MODAL INSCRIPTION
     const modalIns = document.getElementById('modal-inscription');
     function openIns() { modalIns.classList.add('active'); }
     function closeIns() { modalIns.classList.remove('active'); }
     document.getElementById('close-modal-btn').addEventListener('click', closeIns);
 
-    // MODAL 6E CHANCE
-// MODAL 6E CHANCE - VERSION CORRIGÉE POUR MOBIle
-const modalExtra = document.getElementById('modal-extra-chance');
-modalExtra.style.zIndex = '10003'; // Plus haut que tout
-let extraCount = 0;
-let visibilityListener = null;
+    // PARTAGE OBLIGATOIRE
+    let shareCount = 0;
+    let shareListener = null;
 
-function openExtra() {
-  extraCount = 0;
-  document.getElementById('share-progress-text').textContent = '0 / 10 partages';
-  document.getElementById('share-progress-fill').style.width = '0%';
-  modalExtra.classList.add('active');
-  
-  if (visibilityListener) {
-    document.removeEventListener('visibilitychange', visibilityListener);
-  }
-  
-  visibilityListener = function() {
-    if (document.visibilityState === 'visible' && extraCount < 10) {
-      extraCount++;
-      document.getElementById('share-progress-text').textContent = extraCount + ' / 10 partages';
-      document.getElementById('share-progress-fill').style.width = (extraCount * 10) + '%';
-      if (extraCount >= 10) {
-        setExtra(true);
-        closeExtra();
-        alert('🎉 6ᵉ chance débloquée !');
-        gameStates.set('accueil');
+    function openMustShare() {
+      shareCount = 0;
+      document.getElementById('mustshare-progress-text').textContent = '0 / 10 partages';
+      document.getElementById('mustshare-progress-fill').style.width = '0%';
+      gameStates.set('mustshare');
+      
+      if (shareListener) document.removeEventListener('visibilitychange', shareListener);
+      shareListener = function() {
+        if (document.visibilityState === 'visible' && shareCount < 10) {
+          shareCount++;
+          document.getElementById('mustshare-progress-text').textContent = shareCount + ' / 10 partages';
+          document.getElementById('mustshare-progress-fill').style.width = (shareCount * 10) + '%';
+          if (shareCount >= 10) {
+            setUnlocked(true);
+            gameStates.set('accueil');
+            alert('🎉 4 parties débloquées !');
+          }
+        }
+      };
+      document.addEventListener('visibilitychange', shareListener);
+    }
+
+    document.getElementById('btn-mustshare').addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var message = "Je tente de gagner 10 000 HTG sur Jwenn Drapo'm ! " + SITE_URL;
+      var waUrl = "https://wa.me/?text=" + encodeURIComponent(message);
+      window.location.href = waUrl;
+      if (shareCount < 10) {
+        shareCount++;
+        document.getElementById('mustshare-progress-text').textContent = shareCount + ' / 10 partages';
+        document.getElementById('mustshare-progress-fill').style.width = (shareCount * 10) + '%';
+        if (shareCount >= 10) {
+          setUnlocked(true);
+          gameStates.set('accueil');
+          alert('🎉 4 parties débloquées !');
+        }
       }
-    }
-  };
-  document.addEventListener('visibilitychange', visibilityListener);
-}
+    });
 
-function closeExtra() {
-  modalExtra.classList.remove('active');
-  if (visibilityListener) {
-    document.removeEventListener('visibilitychange', visibilityListener);
-    visibilityListener = null;
-  }
-}
-
-document.getElementById('close-extra-modal').addEventListener('click', function(e) {
-  e.stopPropagation();
-  closeExtra();
-});
-
-// BOUTON PARTAGE 6E CHANCE
-document.getElementById('btn-share-extra').addEventListener('click', function(e) {
-  e.preventDefault();
-  e.stopPropagation();
-  
-  var message = "Je tente de gagner 10 000 HTG sur Jwenn Drapo'm ! " + SITE_URL;
-  var waUrl = "https://wa.me/?text=" + encodeURIComponent(message);
-  
-  // Ouvre WhatsApp directement (fiable sur mobile)
-  window.location.href = waUrl;
-  
-  if (extraCount < 10) {
-    extraCount++;
-    document.getElementById('share-progress-text').textContent = extraCount + ' / 10 partages';
-    document.getElementById('share-progress-fill').style.width = (extraCount * 10) + '%';
-    if (extraCount >= 10) {
-      setExtra(true);
-      closeExtra();
-      alert('🎉 6ᵉ chance débloquée !');
-      gameStates.set('accueil');
-    }
-  }
-});
-    // POPUNDER (1/jour, après 2m30)
     function getToday() { const n=new Date(); return `${n.getFullYear()}-${n.getMonth()+1}-${n.getDate()}`; }
     function canPopunder() { const l=secureGet('popDate'); return !l || l.date!==getToday(); }
     function markPopunder() { secureSet('popDate',{date:getToday()}); }
@@ -668,9 +486,8 @@ document.getElementById('btn-share-extra').addEventListener('click', function(e)
 
     // JEU BONNETEAU
     let attempt=0, timerInterval=null, timeout=null, startTime=null, remaining=GAME_DURATION;
-    let indiceShown=false, indiceUsed=false, popTimeout=null, gameActive=false;
-    let bowls = [];
-    let isShuffling = false;
+    let popTimeout=null, gameActive=false;
+    let bowls = [], isShuffling = false;
 
     function createBowls() {
       const container = document.getElementById('bowls-container');
@@ -681,17 +498,15 @@ document.getElementById('btn-share-extra').addEventListener('click', function(e)
         const plate = document.createElement('div');
         plate.className = 'plate';
         plate.style.transform = `translateX(${positions[i]}px) translateY(0px)`;
-        plate.dataset.pos = positions[i]; 
+        plate.dataset.pos = positions[i];
         plate.addEventListener('click', onPlateClick);
         container.appendChild(plate);
         bowls.push(plate);
       }
       if(!document.getElementById('hidden-flag')) {
         const flag = document.createElement('div');
-        flag.id = 'hidden-flag';
-        flag.className = 'flag-hidden';
-        flag.textContent = '🇭🇹';
-        flag.style.display = 'none';
+        flag.id = 'hidden-flag'; flag.className = 'flag-hidden';
+        flag.textContent = '🇭🇹'; flag.style.display = 'none';
         container.appendChild(flag);
       }
     }
@@ -701,8 +516,7 @@ document.getElementById('btn-share-extra').addEventListener('click', function(e)
         const flag = document.getElementById('hidden-flag');
         const randomIdx = Math.floor(Math.random() * 3);
         const targetX = parseInt(bowls[randomIdx].dataset.pos);
-        flag.style.left = `${targetX + 22}px`;
-        flag.style.display = 'block';
+        flag.style.left = `${targetX + 22}px`; flag.style.display = 'block';
         bowls[randomIdx].style.transition = "transform 0.4s ease-out";
         bowls[randomIdx].style.transform = `translateX(${targetX}px) translateY(-50px)`;
         setTimeout(() => {
@@ -711,27 +525,24 @@ document.getElementById('btn-share-extra').addEventListener('click', function(e)
             flag.style.display = 'none';
             bowls[randomIdx].style.transition = "transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)";
             resolve();
-          }, 400); 
+          }, 400);
         }, 1200);
       });
     }
 
     function shuffleBowls() {
       return new Promise(resolve => {
-        let steps = 6 + Math.floor(Math.random()*5);
-        let count = 0;
+        let steps = 6 + Math.floor(Math.random()*5), count = 0;
         isShuffling = true;
         function move() {
           if(count >= steps) { isShuffling = false; resolve(); return; }
-          let a = Math.floor(Math.random()*3);
-          let b = Math.floor(Math.random()*3);
+          let a = Math.floor(Math.random()*3), b = Math.floor(Math.random()*3);
           while(b === a) b = Math.floor(Math.random()*3);
           const plateA = bowls[a], plateB = bowls[b];
           const posA = plateA.dataset.pos, posB = plateB.dataset.pos;
           plateA.style.transform = `translateX(${posB}px) translateY(0px)`;
           plateB.style.transform = `translateX(${posA}px) translateY(0px)`;
-          plateA.dataset.pos = posB;
-          plateB.dataset.pos = posA;
+          plateA.dataset.pos = posB; plateB.dataset.pos = posA;
           [bowls[a], bowls[b]] = [bowls[b], bowls[a]];
           count++;
           setTimeout(move, 450);
@@ -741,14 +552,12 @@ document.getElementById('btn-share-extra').addEventListener('click', function(e)
     }
 
     async function startGame() {
-      if(isLocked()) { gameStates.set('gameover'); return; }
+      if(isLocked() || mustShare()) { gameStates.set('mustshare'); return; }
       if(!getProfile()) { openIns(); return; }
-      if(!incAttempt()) { gameStates.set('gameover'); return; }
+      if(!incAttempt()) { gameStates.set('mustshare'); return; }
       attempt = getAttempts();
       createBowls();
       gameActive = false;
-      indiceShown = false;
-      indiceUsed = false;
       gameStates.set('game');
       await showFlagBriefly();
       setTimeout(async () => {
@@ -757,11 +566,8 @@ document.getElementById('btn-share-extra').addEventListener('click', function(e)
       }, 500);
 
       function startTimers() {
-        startTime = Date.now();
-        remaining = GAME_DURATION;
-        gameActive = true;
-        updateTimer();
-        stopTimers();
+        startTime = Date.now(); remaining = GAME_DURATION; gameActive = true;
+        updateTimer(); stopTimers();
         timerInterval = setInterval(updateTimer, 1000);
         timeout = setTimeout(() => abandonGame(true), GAME_DURATION * 1000);
         if(canPopunder()) { popTimeout = setTimeout(() => { if(gameActive){ triggerPopunder(); markPopunder(); } }, 150000); }
@@ -773,25 +579,8 @@ document.getElementById('btn-share-extra').addEventListener('click', function(e)
       const elapsed = Math.floor((Date.now()-startTime)/1000);
       remaining = Math.max(0, GAME_DURATION - elapsed);
       document.getElementById('timer').textContent = `⏱️ ${String(Math.floor(remaining/60)).padStart(2,'0')}:${String(remaining%60).padStart(2,'0')}`;
-      // Indice après 7 secondes de jeu (modifiable selon demande)
-      if(elapsed >= 7 && remaining > 0 && !indiceShown && !indiceUsed) {
-        indiceShown = true;
-        pauseGame();
-      }
     }
 
-    function pauseGame() {
-      stopTimers();
-      gameStates.set('paused');
-    }
-    function resumeGame() {
-      if(remaining <= 0) { abandonGame(true); return; }
-      startTime = Date.now() - (GAME_DURATION - remaining) * 1000;
-      updateTimer();
-      timerInterval = setInterval(updateTimer, 1000);
-      timeout = setTimeout(() => abandonGame(true), remaining * 1000);
-      gameStates.set('game');
-    }
     function stopTimers() {
       if(timerInterval) clearInterval(timerInterval);
       if(timeout) clearTimeout(timeout);
@@ -801,8 +590,7 @@ document.getElementById('btn-share-extra').addEventListener('click', function(e)
 
     function onPlateClick(e) {
       if(!gameActive || isShuffling) return;
-      gameActive = false;
-      stopTimers();
+      gameActive = false; stopTimers();
       const plate = e.currentTarget;
       const currentX = plate.dataset.pos;
       plate.style.transition = "transform 0.5s ease-out";
@@ -811,92 +599,63 @@ document.getElementById('btn-share-extra').addEventListener('click', function(e)
     }
 
     function abandonGame(timeUp = false) {
-      stopTimers();
-      gameActive = false;
+      stopTimers(); gameActive = false;
       const elapsed = Math.floor((Date.now() - startTime) / 1000);
       const pts = timeUp ? Math.floor(Math.random() * 300) + 50 : Math.floor(Math.random() * 500) + 100;
       document.getElementById('defeat-time').textContent = elapsed + ' secondes';
       document.getElementById('defeat-points').textContent = pts;
       addHist({attempt, time: elapsed, points: pts, date: new Date().toISOString()});
-      const max = hasExtra() ? MAX_ATTEMPTS + 1 : MAX_ATTEMPTS;
-      const rest = max - getAttempts();
+      const rest = MAX_ATTEMPTS - getAttempts();
       document.getElementById('remaining-attempts').textContent = rest + ' tentative(s) restante(s)';
-      gameStates.set('defeat');
+      if (mustShare()) { openMustShare(); }
+      else { gameStates.set('defeat'); }
     }
 
-    // TUTORIEL
-    function showTuto() {
-      gameStates.set('tutorial');
-      animateTutorial();
-    }
-    function hideTuto() {
-      gameStates.set('game');
-      startGame();
-    }
+    function showTuto() { gameStates.set('tutorial'); animateTutorial(); }
+    function hideTuto() { gameStates.set('game'); startGame(); }
     function animateTutorial() {
       const finger = document.getElementById('tuto-finger');
       const plates = document.querySelectorAll('.tuto-plate');
-      finger.style.left = '5px';
-      finger.style.top = '-40px';
+      finger.style.left = '5px'; finger.style.top = '-40px';
       setTimeout(() => {
         finger.style.top = '10px';
         plates[0].style.transform = 'translateY(-20px)';
-        setTimeout(() => {
-          plates[0].style.transform = 'translateY(0)';
-          finger.style.top = '-40px';
-        }, 800);
+        setTimeout(() => { plates[0].style.transform = 'translateY(0)'; finger.style.top = '-40px'; }, 800);
       }, 500);
     }
     document.getElementById('close-tutorial-btn').addEventListener('click', hideTuto);
 
-    // BOUTONS D'ACTION
     document.getElementById('play-btn-home').addEventListener('click', handlePlay);
     document.getElementById('abandon-btn').addEventListener('click', () => abandonGame(false));
     document.getElementById('retry-btn').addEventListener('click', () => {
-      if(isLocked()) { gameStates.set('gameover'); }
+      if(mustShare()) { openMustShare(); }
+      else if(isLocked()) { gameStates.set('mustshare'); }
       else { startGame(); }
     });
     document.getElementById('share-defeat-btn').addEventListener('click', () => {
       window.open(`https://wa.me/?text=${encodeURIComponent("🇭🇹 J'ai joué à Jwenn Drapo'm ! Peux-tu gagner 10000HTG ? Joue ici : " + SITE_URL)}`, '_blank');
     });
     document.getElementById('save-profile-btn').addEventListener('click', () => {
-      const p = document.getElementById('pseudo-input').value.trim(),
-            t = document.getElementById('tel-input').value.trim(),
-            m = document.getElementById('mode-input').value;
-      if(!p || !t) { alert('Remplis tous les champs'); return; }
-      saveProfile(p, t, m);
-      closeIns();
-      showTuto();
+      const p=document.getElementById('pseudo-input').value.trim(), t=document.getElementById('tel-input').value.trim(), m=document.getElementById('mode-input').value;
+      if(!p||!t) { alert('Remplis tous les champs'); return; }
+      saveProfile(p,t,m); closeIns(); showTuto();
     });
 
-    // Overlay indice
-    document.getElementById('share-indice-btn').addEventListener('click', () => {
-      window.open(`https://wa.me/?text=${encodeURIComponent('🇭🇹 Jwenn 10000HTG pou okazyon 18 mai sa a ! Al jwe jwet la gratis: ' + SITE_URL)}`, '_blank');
-      indiceUsed = true;
-      resumeGame();
-    });
-    document.getElementById('close-indice-btn').addEventListener('click', () => {
-      indiceUsed = true;
-      resumeGame();
-    });
-
-    // Mise à jour du profil
     function updateProfile() {
       const p=getProfile(); if(!p) return;
       document.getElementById('profil-pseudo').textContent=p.pseudo;
       document.getElementById('profil-tel').textContent=p.tel;
       document.getElementById('profil-mode').textContent=p.mode;
-      const att=getAttempts(), max=hasExtra()?MAX_ATTEMPTS+1:MAX_ATTEMPTS;
-      document.getElementById('profil-parties').textContent=att+'/'+max;
-      const rest=max-att;
+      const att=getAttempts();
+      document.getElementById('profil-parties').textContent=att+'/'+MAX_ATTEMPTS;
+      const rest=MAX_ATTEMPTS-att;
       document.getElementById('profil-restantes').textContent=rest>0?`${rest} tentative(s) restante(s)`:'Plus de tentatives';
       const hist=loadHist(), list=document.getElementById('history-list');
       list.innerHTML='';
       hist.slice().reverse().forEach(h=>{ const li=document.createElement('li'); li.textContent=`Partie ${h.attempt} : ${h.time}s - ${h.points} pts`; li.style.color='white'; list.appendChild(li); });
     }
 
-    // Initialisation
-    if(isLocked()) { gameStates.set('gameover'); }
+    if(isLocked() && !hasUnlocked()) { gameStates.set('mustshare'); }
     else { gameStates.set('accueil'); }
   })();
 </script>
