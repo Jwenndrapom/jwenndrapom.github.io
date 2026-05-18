@@ -590,55 +590,64 @@ updateCountdown();
     function openIns() { modalIns.classList.add('active'); }
     function closeIns() { modalIns.classList.remove('active'); }
     document.getElementById('close-modal-btn').addEventListener('click', closeIns);
+// MODAL 6E CHANCE
+const modalExtra = document.getElementById('modal-extra-chance');
+let extraCount = 0;
+let visibilityListener = null;
 
-    // MODAL 6E CHANCE
-    const modalExtra = document.getElementById('modal-extra-chance');
-    let extraCount=0, visibilityListener=null;
-    function openExtra() {
-      extraCount=0;
-      document.getElementById('share-progress-text').textContent='0 / 10 partages';
-      document.getElementById('share-progress-fill').style.width='0%';
-      modalExtra.classList.add('active');
-      visibilityListener = () => {
-        if(document.visibilityState==='visible' && extraCount<10) {
-          extraCount++;
-          document.getElementById('share-progress-text').textContent=`${extraCount} / 10 partages`;
-          document.getElementById('share-progress-fill').style.width=(extraCount*10)+'%';
-          if(extraCount>=10) {
-            setExtra(true);
-            closeExtra();
-            alert('🎉 6ᵉ chance débloquée !');
-            gameStates.set('accueil');
-          }
-        }
-      };
-      document.addEventListener('visibilitychange', visibilityListener);
-    }
-    function closeExtra() {
-      modalExtra.classList.remove('active');
-      if(visibilityListener) {
-        document.removeEventListener('visibilitychange', visibilityListener);
-        visibilityListener=null;
+function openExtra() {
+  extraCount = 0;
+  document.getElementById('share-progress-text').textContent = '0 / 10 partages';
+  document.getElementById('share-progress-fill').style.width = '0%';
+  modalExtra.classList.add('active');
+  
+  if (visibilityListener) {
+    document.removeEventListener('visibilitychange', visibilityListener);
+  }
+  
+  visibilityListener = function() {
+    if (document.visibilityState === 'visible' && extraCount < 10) {
+      extraCount++;
+      document.getElementById('share-progress-text').textContent = extraCount + ' / 10 partages';
+      document.getElementById('share-progress-fill').style.width = (extraCount * 10) + '%';
+      if (extraCount >= 10) {
+        setExtra(true);
+        closeExtra();
+        alert('🎉 Autre chance débloquée !');
+        gameStates.set('accueil');
       }
     }
-    document.getElementById('close-extra-modal').addEventListener('click', closeExtra);
-    document.getElementById('btn-share-extra').addEventListener('click', (e) => {
-      e.preventDefault();
-      const message = "🇭🇹 Je tente de gagner 10 000 HTG sur Jwenn Drapo'm ! " + SITE_URL;
-      const waUrl = "https://wa.me/?text=" + encodeURIComponent(message);
-      window.open(waUrl, '_blank');
-      if(extraCount<10){
-        extraCount++;
-        document.getElementById('share-progress-text').textContent=`${extraCount} / 10 partages`;
-        document.getElementById('share-progress-fill').style.width=(extraCount*10)+'%';
-        if(extraCount>=10){
-          setExtra(true);
-          closeExtra();
-          alert('🎉 Autre chance débloquée !');
-          gameStates.set('accueil');
-        }
-      }
-    });
+  };
+  document.addEventListener('visibilitychange', visibilityListener);
+}
+
+function closeExtra() {
+  modalExtra.classList.remove('active');
+  if (visibilityListener) {
+    document.removeEventListener('visibilitychange', visibilityListener);
+    visibilityListener = null;
+  }
+}
+
+document.getElementById('close-extra-modal').addEventListener('click', closeExtra);
+
+document.getElementById('btn-share-extra').addEventListener('click', function() {
+  var message = "🇭🇹 Je tente de gagner 10 000 HTG sur Jwenn Drapo'm ! " + SITE_URL;
+  var waUrl = "https://wa.me/?text=" + encodeURIComponent(message);
+  window.open(waUrl, '_blank');
+  
+  if (extraCount < 10) {
+    extraCount++;
+    document.getElementById('share-progress-text').textContent = extraCount + ' / 10 partages';
+    document.getElementById('share-progress-fill').style.width = (extraCount * 10) + '%';
+    if (extraCount >= 10) {
+      setExtra(true);
+      closeExtra();
+      alert('🎉 Autre chance débloquée !');
+      gameStates.set('accueil');
+    }
+  }
+});
     
 
     // POPUNDER (1/jour, après 2m30)
