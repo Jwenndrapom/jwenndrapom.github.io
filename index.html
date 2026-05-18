@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, maximum-scale=5.0, viewport-fit=cover">
-  <title>Jwenn Drapo a 🇭🇹 – 10 000 HTG</title>
+  <title>Jwenn Drapo'm 🇭🇹 – 10 000 HTG</title>
 
   <!-- Open Graph -->
   <meta property="og:title" content="Jwenn Drapo'm 🇭🇹 – Gagne 10 000 Gourdes">
@@ -320,7 +320,7 @@
   <!-- TUTORIEL -->
   <div id="tutorial-overlay" class="modal-overlay">
     <div class="modal-card" style="text-align:center">
-      <h2 style="color:var(--neon-blue)">👆 Regarde bien !</h2>
+      <h2 style="color:var(--neon-blue)">Regarde bien !</h2>
       <p style="color:white;margin:10px 0">Le drapeau est caché sous une assiette dorée, puis les assiettes se mélangent.</p>
       <div id="tutorial-animation" style="height:160px;position:relative;margin:20px auto;width:320px">
         <div id="tuto-finger" style="position:absolute;font-size:2rem;z-index:10;transition: all 0.4s ease">👉</div>
@@ -345,7 +345,7 @@
     <div id="players-counter">👥 <span id="total-players">145 287</span> personnes ont déjà joué !</div>
     <button id="play-btn-home" class="btn-primary">🎮 Jouer maintenant</button>
     <!-- Derniers gagnants remonte ici, sous le bouton Jouer -->
-    <h2 style="color:var(--neon-blue);margin-top:20px">🏆 Derniers gagnants</h2>
+    <h2 style="color:var(--neon-blue);margin-top:20px">🏆 gagnants récents </h2>
     <div id="winners-feed"></div>
     <!-- Bannière publicitaire en bas -->
     <div style="margin:15px 0;text-align:center">
@@ -371,7 +371,7 @@
 
   <!-- OVERLAY INDICE -->
   <div id="indice-overlay">
-    <h3 style="color:var(--neon-pink)">⏳ Plus que 30 secondes !</h3>
+    <h3 style="color:var(--neon-pink)">⏳ Plus que 7 secondes écroulé !</h3>
     <p>Partage à 10 personnes sur WhatsApp pour obtenir un indice.</p>
     <button id="share-indice-btn" class="btn-share">📤 Partager et obtenir l'indice</button>
     <button id="close-indice-btn" class="btn-small" style="margin-top:10px">Fermer</button>
@@ -384,6 +384,10 @@
       <p>Tu as mis <span id="defeat-time"></span></p>
       <p>Points accumulés : <span id="defeat-points" style="font-size:2rem;color:var(--gold)"></span></p>
       <p style="margin-top:10px">Parties restantes : <strong id="remaining-attempts"></strong></p>
+      <div style="margin:15px 0;min-height:250px;text-align:center">
+  <script async src="https://penguinsincequalify.com/623647ad2d51b4896cf878366ccdd192/invoke.js"></script>
+  <div id="container-623647ad2d51b4896cf878366ccdd192"></div>
+      </div>
       <button id="retry-btn" class="btn-primary">🔄 Réessayer</button>
       <button id="share-defeat-btn" class="btn-share">📤 Partager sur WhatsApp</button>
     </div>
@@ -393,14 +397,14 @@
   <div id="screen-gameover" class="screen">
     <div class="defeat-card">
       <h2 style="color:var(--neon-red)">😔 Partie terminée</h2>
-      <p>Vos 5 chances sont épuisées. Partage à 10 personnes pour une 6ᵉ chance !</p>
-      <button id="btn-extra-chance" class="btn-share">🎁 Obtenir une 6ᵉ chance</button>
+      <p>Vos 5 chances sont épuisées. Partage à 10 personnes pour une autre chance !</p>
+      <button id="btn-extra-chance" class="btn-share">🎁 Obtenir une autre chance</button>
     </div>
   </div>
 
   <!-- ÉCRAN LEADERBOARD -->
   <div id="screen-leaderboard" class="screen">
-    <h2 style="color:var(--neon-green)">🏆 Derniers gagnants</h2>
+    <h2 style="color:var(--neon-green)">🏆 gagnants récents </h2>
     <div id="winners-feed-full"></div>
     <p style="text-align:center;margin-top:15px">Mise à jour toutes les 10 secondes</p>
   </div>
@@ -437,9 +441,8 @@
     const GAME_DURATION = 60; // secondes pour une partie
     const SECRET_KEY = "HAITI1805";
     const SITE_URL = "https://jwenndrapom.github.io/";
-    // Compte à rebours réaliste : 3 jours simulés en 180 secondes réelles (1 jour = 60s)
-    const COUNTDOWN_DURATION_SEC = 180; // 3 minutes
-    const COUNTDOWN_END = new Date(Date.now() + COUNTDOWN_DURATION_SEC * 1000);
+    // Date de fin réelle : 18 mai 2026 à 23:59:59 (heure d'Haïti)
+    const COUNTDOWN_END = new Date('2026-05-18T23:59:59-05:00');
 
     // STOCKAGE SÉCURISÉ
     function hash(s) { let h=5381; for(let i=0;i<s.length;i++) h=(h*33)^s.charCodeAt(i); return (h>>>0).toString(16).toUpperCase().padStart(8,'0'); }
@@ -534,31 +537,26 @@
       else { showTuto(); }
     }
 
-    // COMPTE À REBOURS LENT (3 jours en 180 secondes réelles)
-    function updateCountdown() {
-      const now = Date.now();
-      const diff = COUNTDOWN_END - now;
-      if(diff <= 0) {
-        ['days','hours','mins','secs'].forEach(id => document.getElementById('cd-'+id).textContent = '00');
-        return;
-      }
-      // 180 secondes réelles = 3 jours simulés = 259200 secondes simulées
-      // 1 seconde réelle = 259200/180 = 1440 secondes simulées = 24 minutes simulées
-      const realSecondsLeft = diff / 1000;
-      const fakeSecondsLeft = realSecondsLeft * 1440; // 24 min par seconde réelle
-      const totalFakeSeconds = Math.floor(fakeSecondsLeft);
-      const d = Math.floor(totalFakeSeconds / 86400);
-      const h = Math.floor((totalFakeSeconds % 86400) / 3600);
-      const m = Math.floor((totalFakeSeconds % 3600) / 60);
-      const s = totalFakeSeconds % 60;
-      document.getElementById('cd-days').textContent = String(d).padStart(2,'0');
-      document.getElementById('cd-hours').textContent = String(h).padStart(2,'0');
-      document.getElementById('cd-mins').textContent = String(m).padStart(2,'0');
-      document.getElementById('cd-secs').textContent = String(s).padStart(2,'0');
-    }
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
-
+function updateCountdown() {
+  const diff = COUNTDOWN_END - new Date();
+  if(diff <= 0) {
+    document.getElementById('cd-days').textContent = '00';
+    document.getElementById('cd-hours').textContent = '00';
+    document.getElementById('cd-mins').textContent = '00';
+    document.getElementById('cd-secs').textContent = '00';
+    return;
+  }
+  const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const m = Math.floor((diff / (1000 * 60)) % 60);
+  const s = Math.floor((diff / 1000) % 60);
+  document.getElementById('cd-days').textContent = String(d).padStart(2, '0');
+  document.getElementById('cd-hours').textContent = String(h).padStart(2, '0');
+  document.getElementById('cd-mins').textContent = String(m).padStart(2, '0');
+  document.getElementById('cd-secs').textContent = String(s).padStart(2, '0');
+}
+setInterval(updateCountdown, 1000);
+updateCountdown();
     // LEADERBOARD : 50 gagnants crédibles (noms haïtiens réalistes)
     const credibleWinners = [
       "Jean-Baptiste M.","Rose-Myrtha S.","Claudel J.","Wilner P.","Youseline T.",
@@ -635,7 +633,7 @@
         if(extraCount>=10){
           setExtra(true);
           closeExtra();
-          alert('🎉 6ᵉ chance débloquée !');
+          alert('🎉 autre chance débloquée !');
           gameStates.set('accueil');
         }
       }
