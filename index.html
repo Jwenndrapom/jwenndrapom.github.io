@@ -590,7 +590,8 @@ updateCountdown();
     function openIns() { modalIns.classList.add('active'); }
     function closeIns() { modalIns.classList.remove('active'); }
     document.getElementById('close-modal-btn').addEventListener('click', closeIns);
-// MODAL 6E CHANCE
+
+    // MODAL 6E CHANCE
 const modalExtra = document.getElementById('modal-extra-chance');
 let extraCount = 0;
 let visibilityListener = null;
@@ -613,7 +614,7 @@ function openExtra() {
       if (extraCount >= 10) {
         setExtra(true);
         closeExtra();
-        alert('🎉 Autre chance débloquée !');
+        alert('🎉 6ᵉ chance débloquée !');
         gameStates.set('accueil');
       }
     }
@@ -631,10 +632,10 @@ function closeExtra() {
 
 document.getElementById('close-extra-modal').addEventListener('click', closeExtra);
 
-document.getElementById('btn-share-extra').addEventListener('click', function() {
-  var message = "🇭🇹 Je tente de gagner 10 000 HTG sur Jwenn Drapo'm ! " + SITE_URL;
-  var waUrl = "https://wa.me/?text=" + encodeURIComponent(message);
-  window.open(waUrl, '_blank');
+// BOUTON PARTAGE 6E CHANCE - VERSION SIMPLE
+document.getElementById('btn-share-extra').onclick = function() {
+  var url = 'https://wa.me/?text=Je%20tente%20de%20gagner%2010000%20HTG%20sur%20Jwenn%20Drapo%20!%20' + encodeURIComponent(SITE_URL);
+  window.open(url, '_blank');
   
   if (extraCount < 10) {
     extraCount++;
@@ -643,12 +644,11 @@ document.getElementById('btn-share-extra').addEventListener('click', function() 
     if (extraCount >= 10) {
       setExtra(true);
       closeExtra();
-      alert('🎉 Autre chance débloquée !');
+      alert('🎉 6ᵉ chance débloquée !');
       gameStates.set('accueil');
     }
   }
-});
-    
+};
 
     // POPUNDER (1/jour, après 2m30)
     function getToday() { const n=new Date(); return `${n.getFullYear()}-${n.getMonth()+1}-${n.getDate()}`; }
