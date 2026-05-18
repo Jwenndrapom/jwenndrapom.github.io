@@ -636,7 +636,7 @@ document.getElementById('close-extra-modal').addEventListener('click', function(
   closeExtra();
 });
 
-// ✅ SOLUTION : Utiliser un lien <a> temporaire au lieu de window.open()
+// BOUTON PARTAGE 6E CHANCE
 document.getElementById('btn-share-extra').addEventListener('click', function(e) {
   e.preventDefault();
   e.stopPropagation();
@@ -644,21 +644,9 @@ document.getElementById('btn-share-extra').addEventListener('click', function(e)
   var message = "Je tente de gagner 10 000 HTG sur Jwenn Drapo'm ! " + SITE_URL;
   var waUrl = "https://wa.me/?text=" + encodeURIComponent(message);
   
-  // Méthode 1 : Créer un lien invisible et le cliquer
-  var link = document.createElement('a');
-  link.href = waUrl;
-  link.target = '_blank';
-  link.rel = 'noopener noreferrer';
-  link.style.display = 'none';
-  document.body.appendChild(link);
-  link.click();
+  // Ouvre WhatsApp directement (fiable sur mobile)
+  window.location.href = waUrl;
   
-  // Nettoyer après un court délai
-  setTimeout(function() {
-    document.body.removeChild(link);
-  }, 100);
-  
-  // Mettre à jour le compteur
   if (extraCount < 10) {
     extraCount++;
     document.getElementById('share-progress-text').textContent = extraCount + ' / 10 partages';
