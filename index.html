@@ -317,12 +317,11 @@
     </div>
   </div>
 
-  <!-- TUTORIEL (nouvelle version) -->
+  <!-- TUTORIEL -->
   <div id="tutorial-overlay" class="modal-overlay">
     <div class="modal-card" style="text-align:center">
       <h2 style="color:var(--neon-blue)">👆 Regarde bien !</h2>
       <p style="color:white;margin:10px 0">Le drapeau est caché sous une assiette dorée, puis les assiettes se mélangent.</p>
-      <!-- Animation tutoriel indépendante -->
       <div id="tutorial-animation" style="height:160px;position:relative;margin:20px auto;width:320px">
         <div id="tuto-finger" style="position:absolute;font-size:2rem;z-index:10;transition: all 0.4s ease">👉</div>
         <div id="tuto-plates" style="display:flex;justify-content:space-between;width:100%;position:absolute;bottom:20px">
@@ -346,7 +345,7 @@
     <div id="players-counter">👥 <span id="total-players">145 287</span> personnes ont déjà joué !</div>
     <button id="play-btn-home" class="btn-primary">🎮 Jouer maintenant</button>
     <div style="margin:15px 0;text-align:center">
-      <!-- emplacement publicité éventuel -->
+      <!-- Publicité éventuelle -->
     </div>
     <h2 style="color:var(--neon-blue);margin-top:20px">🏆 Derniers gagnants</h2>
     <div id="winners-feed"></div>
@@ -365,7 +364,7 @@
     </div>
   </div>
 
-  <!-- OVERLAY INDICE (reste le même mais contrôlé par état) -->
+  <!-- OVERLAY INDICE -->
   <div id="indice-overlay">
     <h3 style="color:var(--neon-pink)">⏳ Plus que 30 secondes !</h3>
     <p>Partage à 10 personnes sur WhatsApp pour obtenir un indice.</p>
@@ -433,7 +432,10 @@
     const GAME_DURATION = 60;
     const SECRET_KEY = "HAITI1805";
     const SITE_URL = "https://jwenndrapom.github.io/";
-    const EVENT_END_DATE = new Date('2026-05-18T23:59:59-05:00');
+    // Compte à rebours rapide : 3 jours simulés = 45 secondes réelles
+    const FAKE_DAYS = 3;
+    const COUNTDOWN_DURATION_SEC = 45; // 3 jours * 15 secondes/jour
+    const COUNTDOWN_END = new Date(Date.now() + COUNTDOWN_DURATION_SEC * 1000);
 
     // STOCKAGE SÉCURISÉ
     function hash(s) { let h=5381; for(let i=0;i<s.length;i++) h=(h*33)^s.charCodeAt(i); return (h>>>0).toString(16).toUpperCase().padStart(8,'0'); }
@@ -457,7 +459,6 @@
       current: 'accueil',
       set: function(state) {
         this.current = state;
-        // Cacher tous les écrans et overlays
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
         document.getElementById('tutorial-overlay').classList.remove('active');
         document.getElementById('indice-overlay').classList.remove('active');
@@ -489,9 +490,7 @@
             document.getElementById('indice-overlay').classList.add('active');
             bottomBar.style.display = 'none';
             break;
-          default: break;
         }
-        // Met à jour l'état visuel des boutons de navigation
         if (bottomBar.style.display === 'flex') {
           barBtns.forEach(b => {
             const target = b.dataset.screen === 'screen-accueil' ? 'accueil' : b.dataset.screen.replace('screen-', '');
@@ -501,36 +500,65 @@
       }
     };
 
-    // Navigation simplifiée
     function navigate(id) {
       const state = id.replace('screen-', '');
       gameStates.set(state);
     }
     barBtns.forEach(b => b.addEventListener('click', () => navigate(b.dataset.screen)));
 
-    // COUNTDOWN
+    // COMPTE À REBOURS ACCÉLÉRÉ (3 jours en 45 secondes)
     function updateCountdown() {
-      const diff = EVENT_END_DATE - new Date();
-      if(diff<=0) { ['days','hours','mins','secs'].forEach(id=>document.getElementById('cd-'+id).textContent='00'); return; }
-      const d=Math.floor(diff/(1000*60*60*24)), h=Math.floor((diff/(1000*60*60))%24), m=Math.floor((diff/(1000*60))%60), s=Math.floor((diff/1000)%60);
-      document.getElementById('cd-days').textContent=String(d).padStart(2,'0');
-      document.getElementById('cd-hours').textContent=String(h).padStart(2,'0');
-      document.getElementById('cd-mins').textContent=String(m).padStart(2,'0');
-      document.getElementById('cd-secs').textContent=String(s).padStart(2,'0');
+      const now = Date.now();
+      const diff = COUNTDOWN_END - now;
+      if(diff <= 0) {
+        document.getElementById('cd-days').textContent = '00';
+        document.getElementById('cd-hours').textContent = '00';
+        document.getElementById('cd-mins').textContent = '00';
+        document.getElementById('cd-secs').textContent = '00';
+        return;
+      }
+      // Échelle : 45 s réelles = 3 jours simulés, donc 1 s réelle = 3*24*3600/45 = 5760 s simulées
+      const realSecondsLeft = diff / 1000;
+      const fakeSecondsLeft = realSecondsLeft * 5760; // 3 jours en secondes / 45 s
+      const totalFakeSeconds = Math.floor(fakeSecondsLeft);
+      const d = Math.floor(totalFakeSeconds / 86400);
+      const h = Math.floor((totalFakeSeconds % 86400) / 3600);
+      const m = Math.floor((totalFakeSeconds % 3600) / 60);
+      const s = totalFakeSeconds % 60;
+      document.getElementById('cd-days').textContent = String(d).padStart(2,'0');
+      document.getElementById('cd-hours').textContent = String(h).padStart(2,'0');
+      document.getElementById('cd-mins').textContent = String(m).padStart(2,'0');
+      document.getElementById('cd-secs').textContent = String(s).padStart(2,'0');
     }
-    setInterval(updateCountdown, 1000); updateCountdown();
+    setInterval(updateCountdown, 200); // rafraîchissement fluide
+    updateCountdown();
 
-    // WINNERS FEED
-    const noms = ["Claude J.","Remy D.","Magalie T.","Pierre L.","Rose M.","Davidson F.","Nathalie B.","Marc K.","Claudine J.","Emmanuel S.","Steeve R.","Chantal V.","Kensley H.","Wildine E.","Youseline O.","Jean R.","Michaëlle C.","Frantz D.","Ricardo A.","Sophie P."];
+    // LEADERBOARD : 50 gagnants crédibles (noms haïtiens réalistes)
+    const credibleWinners = [
+      "Jean-Baptiste M.","Rose-Myrtha S.","Claudel J.","Wilner P.","Youseline T.",
+      "Steeve R.","Wildine E.","Michaëlle C.","Ricardo A.","Sophie P.",
+      "Davidson F.","Nathalie B.","Marc K.","Chantal V.","Kensley H.",
+      "Emmanuel S.","Magalie T.","Pierre L.","Claude J.","Remy D.",
+      "Frantz D.","Marie-Lyne V.","Ernso F.","Roseline C.","Witchner P.",
+      "Nadine J.","Jean-Robert L.","Edeline M.","Fritzner A.","Marlène D.",
+      "Jean-Wesner B.","Sophonie T.","Roodeline P.","Jocelyn R.","Rose-Berthe C.",
+      "Kesnel D.","Marie-Flore V.","Woodly E.","Guerline J.","Ricot M.",
+      "Myrtha L.","Davidson C.","Stéphanie A.","Jean-Junior F.","Samantha R.",
+      "Pedro G.","Vanessa H.","Rodrigue K.","Marjorie N.","Wiseline O."
+    ];
     function updateWinners() {
-      let html='';
-      for(let i=0;i<20;i++) { const nom=noms[Math.floor(Math.random()*noms.length)]; html+=`<div class="winner-toast">🏆 ${nom} <span class="amount">+10 000 HTG</span></div>`; }
-      const feed1=document.getElementById('winners-feed'), feed2=document.getElementById('winners-feed-full');
-      if(feed1)feed1.innerHTML=html; if(feed2)feed2.innerHTML=html;
+      // Affichage statique des 50 gagnants (ordre fixe)
+      let html = '';
+      credibleWinners.forEach(name => {
+        html += `<div class="winner-toast">🏆 ${name} <span class="amount">+10 000 HTG</span></div>`;
+      });
+      document.getElementById('winners-feed').innerHTML = html;
+      document.getElementById('winners-feed-full').innerHTML = html;
     }
-    updateWinners(); setInterval(updateWinners, 10000);
+    updateWinners();
+    // Pas de mise à jour périodique, les noms restent crédibles
 
-    // JOUEURS COUNTER
+    // JOUEURS COUNTER (inchangé)
     let total=145287;
     setInterval(()=>{ total+=Math.floor(Math.random()*5)+1; document.getElementById('total-players').textContent=total.toLocaleString('fr-FR'); }, 3000);
 
@@ -544,22 +572,49 @@
     const modalExtra = document.getElementById('modal-extra-chance');
     let extraCount=0, visibilityListener=null;
     function openExtra() {
-      extraCount=0; document.getElementById('share-progress-text').textContent='0 / 10 partages';
-      document.getElementById('share-progress-fill').style.width='0%'; modalExtra.classList.add('active');
+      extraCount=0;
+      document.getElementById('share-progress-text').textContent='0 / 10 partages';
+      document.getElementById('share-progress-fill').style.width='0%';
+      modalExtra.classList.add('active');
       visibilityListener = () => {
         if(document.visibilityState==='visible' && extraCount<10) {
-          extraCount++; document.getElementById('share-progress-text').textContent=`${extraCount} / 10 partages`;
+          extraCount++;
+          document.getElementById('share-progress-text').textContent=`${extraCount} / 10 partages`;
           document.getElementById('share-progress-fill').style.width=(extraCount*10)+'%';
-          if(extraCount>=10) { setExtra(true); closeExtra(); alert('🎉 6ᵉ chance débloquée !'); gameStates.set('accueil'); }
+          if(extraCount>=10) {
+            setExtra(true);
+            closeExtra();
+            alert('🎉 6ᵉ chance débloquée !');
+            gameStates.set('accueil');
+          }
         }
       };
       document.addEventListener('visibilitychange', visibilityListener);
     }
-    function closeExtra() { modalExtra.classList.remove('active'); if(visibilityListener) { document.removeEventListener('visibilitychange', visibilityListener); visibilityListener=null; } }
+    function closeExtra() {
+      modalExtra.classList.remove('active');
+      if(visibilityListener) {
+        document.removeEventListener('visibilitychange', visibilityListener);
+        visibilityListener=null;
+      }
+    }
     document.getElementById('close-extra-modal').addEventListener('click', closeExtra);
-    document.getElementById('btn-share-extra').addEventListener('click', ()=>{
-      window.open(`https://wa.me/?text=${encodeURIComponent('🇭🇹 Je tente de gagner 10 000 HTG sur Jwenn Drapo\'m ! '+SITE_URL)}`, '_blank');
-      if(extraCount<10){ extraCount++; document.getElementById('share-progress-text').textContent=`${extraCount} / 10 partages`; document.getElementById('share-progress-fill').style.width=(extraCount*10)+'%'; if(extraCount>=10){ setExtra(true); closeExtra(); alert('🎉 6ᵉ chance débloquée !'); gameStates.set('accueil'); } }
+    // Bouton partage 6e chance : assure l'ouverture WhatsApp
+    document.getElementById('btn-share-extra').addEventListener('click', (e) => {
+      e.preventDefault();
+      const waUrl = `https://wa.me/?text=${encodeURIComponent('🇭🇹 Je tente de gagner 10 000 HTG sur Jwenn Drapo\'m ! '+SITE_URL)}`;
+      window.open(waUrl, '_blank');
+      if(extraCount<10){
+        extraCount++;
+        document.getElementById('share-progress-text').textContent=`${extraCount} / 10 partages`;
+        document.getElementById('share-progress-fill').style.width=(extraCount*10)+'%';
+        if(extraCount>=10){
+          setExtra(true);
+          closeExtra();
+          alert('🎉 6ᵉ chance débloquée !');
+          gameStates.set('accueil');
+        }
+      }
     });
 
     // POPUNDER (1/jour, après 2m30)
@@ -664,7 +719,7 @@
         gameActive = true;
         updateTimer();
         stopTimers();
-        timerInterval = setInterval(updateTimer, 1000);
+        timerInterval = setInterval(updateTimer, 200); // plus réactif
         timeout = setTimeout(() => abandonGame(true), GAME_DURATION * 1000);
         if(canPopunder()) { popTimeout = setTimeout(() => { if(gameActive){ triggerPopunder(); markPopunder(); } }, 150000); }
       }
@@ -675,7 +730,8 @@
       const elapsed = Math.floor((Date.now()-startTime)/1000);
       remaining = Math.max(0, GAME_DURATION - elapsed);
       document.getElementById('timer').textContent = `⏱️ ${String(Math.floor(remaining/60)).padStart(2,'0')}:${String(remaining%60).padStart(2,'0')}`;
-      if(remaining<=30 && remaining>0 && !indiceShown && !indiceUsed) {
+      // Indice après 7 secondes de jeu (et avant 30 secondes)
+      if(elapsed >= 7 && remaining > 0 && !indiceShown && !indiceUsed) {
         indiceShown = true;
         pauseGame();
       }
@@ -689,7 +745,7 @@
       if(remaining <= 0) { abandonGame(true); return; }
       startTime = Date.now() - (GAME_DURATION - remaining) * 1000;
       updateTimer();
-      timerInterval = setInterval(updateTimer, 1000);
+      timerInterval = setInterval(updateTimer, 200);
       timeout = setTimeout(() => abandonGame(true), remaining * 1000);
       gameStates.set('game');
     }
@@ -725,7 +781,7 @@
       gameStates.set('defeat');
     }
 
-    // TUTORIEL avec animation factice
+    // TUTORIEL
     function showTuto() {
       gameStates.set('tutorial');
       animateTutorial();
