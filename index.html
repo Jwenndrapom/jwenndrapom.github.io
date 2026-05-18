@@ -9,7 +9,7 @@
   <meta property="og:title" content="Jwenn Drapo a 🇭🇹 – Gagne 10 000 Gourdes">
   <meta property="og:description" content="Trouve le drapeau caché et remporte le grand prix ! Événement du 18 mai.">
   <meta property="og:image" content="https://i.ibb.co/qMZmcZH7/In-Shot-20260517-194204430.webp">
-  <meta property="og:url" content="https://jwenndrapom.netlify.app/">
+  <meta property="og:url" content="https://jwenndrapom.github.io/">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
 
@@ -810,7 +810,7 @@
     function closeExtraModal() { modalExtra.classList.remove('active'); }
     document.getElementById('close-extra-modal').addEventListener('click', closeExtraModal);
     document.getElementById('btn-share-extra').addEventListener('click', () => {
-      const text = encodeURIComponent(`🇭🇹 Je tente de gagner 10 000 HTG sur Jwenn Drapo a ! Rejoins-moi : ${SITE_URL}`);
+      const text = encodeURIComponent(`🇭🇹 Je suis entrain de gagner 10 000 HTG sur Jwenn Drapo'm ! Viens jouer et gagner votre prix : ${SITE_URL}`);
       window.open(`https://wa.me/?text=${text}`, '_blank');
       extraShareCount = Math.min(10, extraShareCount + 1);
       document.getElementById('share-progress-text').textContent = `${extraShareCount} / 10 partages`;
@@ -937,7 +937,7 @@
 
     // Indice
     document.getElementById('share-indice-btn').addEventListener('click', function() {
-      const text = `🇭🇹 Je joue à Jwenn Drapo a ! Rejoins-moi : ${SITE_URL}`;
+      const text = `🇭🇹 Jwenn 10000HTG pou okazyon 18 mai sa a ! Al jwe jwet la gratis: ${SITE_URL}`;
       window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
       document.getElementById('indice-overlay').classList.add('hidden');
       indiceUsed = true;
@@ -972,7 +972,7 @@
       else startGame();
     });
     document.getElementById('share-defeat-btn').addEventListener('click', () => {
-      const text = encodeURIComponent(`🇭🇹 J'ai échoué à Jwenn Drapo a ! Peux-tu faire mieux ? Joue ici : ${SITE_URL}`);
+      const text = encodeURIComponent(`🇭🇹 J'ai jouer à Jwenn Drapo'm pour gagner 10000HTG ! Peux-tu gagner 10000HTG,  Joue ici : ${SITE_URL}`);
       window.open(`https://wa.me/?text=${text}`, '_blank');
     });
 
