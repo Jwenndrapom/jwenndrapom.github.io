@@ -497,7 +497,7 @@ document.getElementById('btn-mustshare').addEventListener('click', function(e) {
   shareLastClick = Date.now();
   
   // Redirection vers WhatsApp
-  var message = "Tu peux gagner 10 000 HTG sur Jwenn Drapo'm ! " + SITE_URL;
+  var message = "Je epi genyen 10 000 HTG cash sou Jwenn Drapo'm ! " + SITE_URL;
   var waUrl = "https://wa.me/?text=" + encodeURIComponent(message);
   window.location.href = waUrl;
 });
@@ -662,7 +662,7 @@ function openMustShare() {
       else { startGame(); }
     });
     document.getElementById('share-defeat-btn').addEventListener('click', () => {
-      window.open(`https://wa.me/?text=${encodeURIComponent("🇭🇹 J'ai joué à Jwenn Drapo'm ! Peux-tu gagner 10000HTG ? Joue ici : " + SITE_URL)}`, '_blank');
+      window.open(`https://wa.me/?text=${encodeURIComponent("🇭🇹 J'ai joué à Jwenn Drapo'm ! Ou ka genyen 10000HTG, Joue ici : " + SITE_URL)}`, '_blank');
     });
     document.getElementById('save-profile-btn').addEventListener('click', () => {
       const p=document.getElementById('pseudo-input').value.trim(), t=document.getElementById('tel-input').value.trim(), m=document.getElementById('mode-input').value;
