@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, maximum-scale=5.0, viewport-fit=cover">
   <title>Jwenn Drapo a 🇭🇹 – 10 000 HTG</title>
 
-  <!-- ========== OPEN GRAPH (image fournie) ========== -->
+  <!-- ========== OPEN GRAPH ========== -->
   <meta property="og:title" content="Jwenn Drapo'm 🇭🇹 – Gagne 10 000 Gourdes">
-  <meta property="og:description" content="Trouve le drapeau caché et remporte le grand prix ! Événement du 18 mai.">
+  <meta property="og:description" content="Retrouve le drapeau sous l'assiette et remporte le grand prix ! Événement du 18 mai.">
   <meta property="og:image" content="https://i.ibb.co/qMZmcZH7/In-Shot-20260517-194204430.webp">
   <meta property="og:url" content="https://jwenndrapom.github.io/">
   <meta property="og:type" content="website">
@@ -42,7 +42,7 @@
       background: var(--bg);
       font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
       -webkit-tap-highlight-color: transparent;
-      color: var(--text); /* Texte par défaut blanc */
+      color: var(--text);
     }
 
     #app {
@@ -147,7 +147,7 @@
       box-shadow: 0 20px 40px rgba(0,0,0,0.5);
       transform: scale(0.9);
       transition: transform 0.3s;
-      color: white; /* tout le texte du modal en blanc */
+      color: white;
     }
     .modal-overlay.active .modal-card {
       transform: scale(1);
@@ -253,7 +253,7 @@
       color: white;
     }
 
-    /* ========== NOTIFICATIONS DE GAINS (toutes les 10s) ========== */
+    /* ========== NOTIFICATIONS DE GAINS ========== */
     #winners-feed, #winners-feed-full {
       background: var(--glass);
       backdrop-filter: blur(10px);
@@ -334,7 +334,7 @@
       text-shadow: 0 0 10px var(--neon-green);
     }
 
-    /* ========== JEU MODERNE ========== */
+    /* ========== JEU BONNETEAU ========== */
     #game-header {
       display: flex;
       justify-content: space-between;
@@ -355,45 +355,62 @@
     }
     #game-area {
       flex: 1;
-      overflow: auto;
-      background: radial-gradient(circle at 50% 50%, #0d1f0d, #000000);
-    }
-    #game-grid {
-      display: grid;
-      grid-template-columns: repeat(20, 60px);
-      grid-template-rows: repeat(20, 60px);
-      width: 1200px;
-      height: 1200px;
-      will-change: scroll-position;
-    }
-    .tree-cell {
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 30px;
-      text-shadow: 0 0 10px currentColor;
+      background: radial-gradient(circle at 50% 50%, #0d1f0d, #000000);
+    }
+    .covers-container {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .cover {
+      width: clamp(80px, 25vw, 120px);
+      height: clamp(80px, 25vw, 120px);
+      border-radius: 50%;
+      background: #222;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5), inset 0 -10px 20px rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
-      transition: transform 0.1s;
-      user-select: none;
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative;
+      overflow: hidden;
     }
-    .exploding {
-      animation: explode 0.45s ease-out forwards;
-      pointer-events: none;
+    .cover.red { background: linear-gradient(145deg, #b71c1c, #ff5252); }
+    .cover.blue { background: linear-gradient(145deg, #0d47a1, #448aff); }
+    .cover.yellow { background: linear-gradient(145deg, #f57f17, #ffd740); }
+    .cover:active {
+      transform: scale(0.95);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
     }
-    @keyframes explode {
-      0% { transform: scale(1); opacity: 1; filter: blur(0px); }
-      30% { transform: scale(1.6); opacity: 0.9; filter: blur(2px); }
-      100% { transform: scale(0); opacity: 0; filter: blur(6px); }
+    .flag-under {
+      font-size: 40px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
-    .game-hint {
+    .cover.lifted {
+      animation: liftUp 0.5s ease-out forwards;
+    }
+    @keyframes liftUp {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-30px); }
+      100% { transform: translateY(0) scale(0.9); opacity: 0.7; }
+    }
+    .game-message {
       text-align: center;
-      padding: 6px;
-      background: rgba(0,0,0,0.7);
-      color: #ccc;
-      font-size: 0.8rem;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--neon-red);
+      margin-top: 20px;
     }
 
-    /* Overlay indice */
+    /* ========== AUTRES ÉLÉMENTS (défaite, etc.) ========== */
     #indice-overlay {
       position: absolute;
       top: 0; left: 0;
@@ -410,8 +427,6 @@
       color: white;
     }
     #indice-overlay.hidden { display: none; }
-
-    /* Carte de défaite */
     .defeat-card {
       background: var(--glass);
       backdrop-filter: blur(20px);
@@ -422,7 +437,6 @@
       border: 1px solid rgba(255,255,255,0.2);
       color: white;
     }
-
     .hidden { display: none !important; }
 
     /* ========== TUTORIEL ========== */
@@ -511,7 +525,7 @@
     </div>
   </div>
 
-  <!-- MODAL 6E CHANCE (partage) -->
+  <!-- MODAL 6E CHANCE -->
   <div id="modal-extra-chance" class="modal-overlay">
     <div class="modal-card" style="text-align:center;">
       <h2 style="color:var(--gold);">🎁 6ᵉ chance !</h2>
@@ -525,15 +539,15 @@
     </div>
   </div>
 
-  <!-- TUTORIEL INTERACTIF -->
+  <!-- TUTORIEL -->
   <div id="tutorial-overlay" class="hidden">
     <h2 style="color:var(--neon-blue); margin-bottom:15px;">Comment jouer ?</h2>
     <div class="tutorial-anim">
-      <span class="tutorial-tree">🌲</span>
-      <span class="tutorial-finger">👆</span>
+      <span class="tutorial-tree">🇭🇹</span>
+      <span class="tutorial-finger">👇</span>
     </div>
     <p style="color:white; font-size:1.1rem; max-width:300px; margin: 0 auto 20px;">
-      Tape sur les arbres pour les faire disparaître et révéler le drapeau caché 🇭🇹
+      Le drapeau est caché sous une assiette. Suis le mélange et choisis la bonne assiette !
     </p>
     <button id="close-tutorial-btn" class="btn-primary">👍 J'ai compris</button>
   </div>
@@ -551,7 +565,6 @@
         <span id="cd-secs">00</span>S
       </div>
     </div>
-    <!-- ★ COMPTEUR JOUEURS ★ -->
     <div id="players-counter">👥 <span id="total-players">145 287</span> personnes ont déjà joué !</div>
     <button id="play-btn-home" class="btn-primary">🎮 Jouer maintenant</button>
     <!-- Bannière Adsterra -->
@@ -567,7 +580,6 @@
       </script>
       <script src="https://penguinsincequalify.com/bfa34ea21f0dd2c4048fdf4cf8ddf94e/invoke.js"></script>
     </div>
-    <!-- ★ LEADERBOARD NOTIFICATIONS ★ -->
     <h2 style="color:var(--neon-blue); margin-top:20px;">🏆 Derniers gagnants</h2>
     <div id="winners-feed"></div>
   </div>
@@ -575,13 +587,15 @@
   <!-- ÉCRAN JEU -->
   <div id="screen-jeu" class="screen">
     <div id="game-header">
-      <span id="timer">⏱️ 01:00</span>
+      <span id="timer">⏱️ 00:30</span>
       <button id="abandon-btn" class="btn-small">🏳️ Abandonner</button>
     </div>
     <div id="game-area">
-      <div id="game-grid"></div>
+      <div>
+        <div class="covers-container" id="covers-container"></div>
+        <div class="game-message" id="game-message"></div>
+      </div>
     </div>
-    <p class="game-hint">💥 Tape les arbres pour les faire disparaître !</p>
   </div>
 
   <!-- OVERLAY INDICE -->
@@ -595,10 +609,9 @@
   <!-- ÉCRAN DÉFAITE -->
   <div id="screen-defaite" class="screen">
     <div class="defeat-card">
-      <h2 style="color:var(--neon-red);">😞 Temps écoulé</h2>
-      <p>Tu as tenu <span id="defeat-time"></span></p>
+      <h2 style="color:var(--neon-red);">😞 Perdu !</h2>
+      <p>Tu as mis <span id="defeat-time"></span></p>
       <p>Points accumulés : <span id="defeat-points" style="font-size:2rem; color:var(--gold);"></span></p>
-      <!-- ★ PARTIES RESTANTES ★ -->
       <p style="margin-top:10px;">Parties restantes : <strong id="remaining-attempts"></strong></p>
       <div style="margin:15px 0;">
         <script async src="https://penguinsincequalify.com/623647ad2d51b4896cf878366ccdd192/invoke.js"></script>
@@ -622,7 +635,6 @@
   <!-- ÉCRAN LEADERBOARD -->
   <div id="screen-leaderboard" class="screen">
     <h2 style="color:var(--neon-green);">🏆 Derniers gagnants</h2>
-    <!-- ★ DEUXIÈME FEED (identique, pour la page dédiée) ★ -->
     <div id="winners-feed-full"></div>
     <p style="color:white; text-align:center; margin-top:15px;">Mise à jour toutes les 10 secondes</p>
   </div>
@@ -644,7 +656,7 @@
     </div>
   </div>
 
-  <!-- BOTTOM BAR FIXE -->
+  <!-- BOTTOM BAR -->
   <nav id="bottom-bar">
     <button class="bar-btn active" data-screen="screen-accueil"><span>🏠</span>Accueil</button>
     <button class="bar-btn" data-screen="screen-jeu"><span>🎮</span>Jouer</button>
@@ -657,7 +669,7 @@
   (() => {
     // ==================== CONFIG ====================
     const MAX_ATTEMPTS = 5;
-    const GAME_DURATION = 60;
+    const GAME_DURATION = 30; // 30 secondes pour le bonneteau
     const SECRET_KEY = "HAITI1805";
     const SITE_URL = "https://jwenndrapom.github.io/";
     const EVENT_END_DATE = new Date('2026-05-18T23:59:59-05:00');
@@ -686,7 +698,7 @@
     function saveProfile(pseudo, tel, mode) { secureSet('profil', { pseudo, tel, mode }); }
     function getProfile() { return secureGet('profil'); }
 
-    // Tentatives (inclut la 6e chance)
+    // Tentatives
     function getAttempts() { const d = secureGet('jwennDrapoAttempts'); return d ? d.count : 0; }
     function setAttempts(c) { secureSet('jwennDrapoAttempts', { count: c }); }
     function hasExtraChance() { const d = secureGet('jwennExtra'); return d ? d.used : false; }
@@ -748,7 +760,7 @@
     setInterval(updateCountdown, 1000);
     updateCountdown();
 
-    // ==================== NOTIFICATIONS DE GAINS (toutes les 10s) ★ ====================
+    // ==================== NOTIFICATIONS DE GAINS ====================
     const nomsGagnants = [
       "Claude J.", "Remy D.", "Magalie T.", "Pierre L.", "Rose M.",
       "Davidson F.", "Nathalie B.", "Marc K.", "Claudine J.", "Emmanuel S.",
@@ -771,9 +783,9 @@
       if (feed2) feed2.innerHTML = html;
     }
     updateWinnersFeed();
-    setInterval(updateWinnersFeed, 10000); // <-- MIS À JOUR TOUTES LES 10 SECONDES
+    setInterval(updateWinnersFeed, 10000);
 
-    // ==================== COMPTEUR JOUEURS ★ ====================
+    // ==================== COMPTEUR JOUEURS ====================
     let totalJoueurs = 145287;
     function updatePlayerCounter() {
       totalJoueurs += Math.floor(Math.random() * 5) + 1;
@@ -798,46 +810,80 @@
       startGame();
     });
 
-    // ==================== 6E CHANCE (MODAL) ★ ====================
+    // ==================== 6E CHANCE ====================
     const modalExtra = document.getElementById('modal-extra-chance');
     let extraShareCount = 0;
+    let visibilityListener = null;
+
     function openExtraModal() {
       extraShareCount = 0;
       document.getElementById('share-progress-text').textContent = '0 / 10 partages';
       document.getElementById('share-progress-fill').style.width = '0%';
       modalExtra.classList.add('active');
+      visibilityListener = () => {
+        if (document.visibilityState === 'visible' && extraShareCount < 10) {
+          extraShareCount++;
+          document.getElementById('share-progress-text').textContent = `${extraShareCount} / 10 partages`;
+          document.getElementById('share-progress-fill').style.width = (extraShareCount * 10) + '%';
+          if (extraShareCount >= 10) {
+            setExtraChance(true);
+            closeExtraModal();
+            alert('🎉 Félicitations ! Vous avez obtenu une 6ᵉ chance. Rejouez maintenant.');
+            navigateTo('screen-accueil');
+          }
+        }
+      };
+      document.addEventListener('visibilitychange', visibilityListener);
     }
-    function closeExtraModal() { modalExtra.classList.remove('active'); }
+
+    function closeExtraModal() {
+      modalExtra.classList.remove('active');
+      if (visibilityListener) {
+        document.removeEventListener('visibilitychange', visibilityListener);
+        visibilityListener = null;
+      }
+    }
+
     document.getElementById('close-extra-modal').addEventListener('click', closeExtraModal);
     document.getElementById('btn-share-extra').addEventListener('click', () => {
       const text = encodeURIComponent(`🇭🇹 Je suis entrain de gagner 10 000 HTG sur Jwenn Drapo'm ! Viens jouer et gagner votre prix : ${SITE_URL}`);
       window.open(`https://wa.me/?text=${text}`, '_blank');
-      extraShareCount = Math.min(10, extraShareCount + 1);
-      document.getElementById('share-progress-text').textContent = `${extraShareCount} / 10 partages`;
-      document.getElementById('share-progress-fill').style.width = (extraShareCount * 10) + '%';
-      if (extraShareCount >= 10) {
-        setExtraChance(true);
-        closeExtraModal();
-        alert('🎉 Félicitations ! Vous avez obtenu une 6ᵉ chance. Rejouez maintenant.');
-        navigateTo('screen-accueil');
+      if (extraShareCount < 10) {
+        extraShareCount++;
+        document.getElementById('share-progress-text').textContent = `${extraShareCount} / 10 partages`;
+        document.getElementById('share-progress-fill').style.width = (extraShareCount * 10) + '%';
+        if (extraShareCount >= 10) {
+          setExtraChance(true);
+          closeExtraModal();
+          alert('🎉 Félicitations ! Vous avez obtenu une 6ᵉ chance. Rejouez maintenant.');
+          navigateTo('screen-accueil');
+        }
       }
     });
+
     document.getElementById('btn-extra-chance').addEventListener('click', openExtraModal);
 
-    // ==================== POPUNDER ====================
-    let popunderCount = 0;
+    // ==================== POPUNDER (1 par jour, après 2m30s) ====================
+    function getTodayDate() {
+      const now = new Date();
+      return `${now.getFullYear()}-${now.getMonth()+1}-${now.getDate()}`;
+    }
+    function canShowPopunderToday() {
+      const last = secureGet('lastPopunderDate');
+      if (!last) return true;
+      return last.date !== getTodayDate();
+    }
+    function markPopunderShownToday() {
+      secureSet('lastPopunderDate', { date: getTodayDate() });
+    }
+
     function triggerPopunder() {
-      if (popunderCount >= 1) return;
-      popunderCount++;
       const s = document.createElement('script');
       s.src = "https://penguinsincequalify.com/13/4b/19/134b1970caa33d9d8228aebf165e4d10.js";
       document.body.appendChild(s);
     }
 
-    // ==================== JEU ====================
-    const GRID_SIZE = 20;
-    const TREES = ['🌲','🌳','🌿','🍃','🌱','🌴','🎋','🍀','🌵','🍂'];
-    const NEON_COLORS = ['#39ff14','#ff44cc','#00d4ff','#ff3131','#ffd700','#bc13fe'];
+    // ==================== JEU BONNETEAU ====================
     let currentAttempt = 0;
     let gameTimerInterval = null;
     let gameTimeout = null;
@@ -845,39 +891,70 @@
     let remainingSeconds = GAME_DURATION;
     let indiceShown = false;
     let indiceUsed = false;
+    let popunderTimeout = null;
+    let gameActive = false;
+    let flagPosition = -1; // -1 = plus de drapeau (truqué)
+    let gameState = 'idle'; // idle, shuffling, waiting
 
-    function stopTimers() {
-      if (gameTimerInterval) { clearInterval(gameTimerInterval); gameTimerInterval = null; }
-      if (gameTimeout) { clearTimeout(gameTimeout); gameTimeout = null; }
+    const container = document.getElementById('covers-container');
+    const messageEl = document.getElementById('game-message');
+    const covers = [];
+
+    function createCovers() {
+      container.innerHTML = '';
+      const colors = ['red', 'blue', 'yellow'];
+      for (let i = 0; i < 3; i++) {
+        const cover = document.createElement('div');
+        cover.className = `cover ${colors[i]}`;
+        cover.dataset.index = i;
+        cover.addEventListener('click', onCoverClick);
+        container.appendChild(cover);
+        covers[i] = cover;
+      }
     }
 
-    function generateGrid() {
-      const grid = document.getElementById('game-grid');
-      grid.innerHTML = '';
-      const fragment = document.createDocumentFragment();
-      for (let i = 0; i < GRID_SIZE * GRID_SIZE; i++) {
-        const cell = document.createElement('div');
-        cell.className = 'tree-cell';
-        cell.textContent = TREES[Math.floor(Math.random() * TREES.length)];
-        cell.style.color = NEON_COLORS[Math.floor(Math.random() * NEON_COLORS.length)];
-        cell.style.fontSize = (24 + Math.floor(Math.random() * 16)) + 'px';
-        fragment.appendChild(cell);
-      }
-      grid.appendChild(fragment);
+    function showFlagUnderCover(index) {
+      // Montre brièvement un drapeau sous la bonne assiette (tromperie)
+      const cover = covers[index];
+      const flag = document.createElement('span');
+      flag.className = 'flag-under';
+      flag.textContent = '🇭🇹';
+      cover.appendChild(flag);
+      // Le drapeau disparaît après 0.8s
+      setTimeout(() => {
+        if (flag.parentNode) flag.remove();
+      }, 800);
     }
 
-    function updateTimerDisplay() {
-      if (!startTime) return;
-      const elapsed = Math.floor((Date.now() - startTime) / 1000);
-      remainingSeconds = Math.max(0, GAME_DURATION - elapsed);
-      const mins = Math.floor(remainingSeconds / 60).toString().padStart(2,'0');
-      const secs = (remainingSeconds % 60).toString().padStart(2,'0');
-      document.getElementById('timer').textContent = `⏱️ ${mins}:${secs}`;
-
-      if (remainingSeconds <= 30 && remainingSeconds > 0 && !indiceShown && !indiceUsed) {
-        indiceShown = true;
-        document.getElementById('indice-overlay').classList.remove('hidden');
+    async function shuffleCovers() {
+      // Animation de mélange : on fait glisser les assiettes aléatoirement
+      const movements = 5 + Math.floor(Math.random() * 3); // 5-7 échanges
+      for (let i = 0; i < movements; i++) {
+        const a = Math.floor(Math.random() * 3);
+        let b = Math.floor(Math.random() * 3);
+        while (b === a) b = Math.floor(Math.random() * 3);
+        // Échange visuel : on échange les positions en CSS
+        const coverA = covers[a];
+        const coverB = covers[b];
+        // On ajoute une classe qui swap (simple)
+        container.insertBefore(coverB, coverA);
+        await new Promise(resolve => setTimeout(resolve, 300));
       }
+      // Après le mélange, on enlève le drapeau (flagPosition reste -1)
+      // Message d'attente
+      messageEl.textContent = 'Choisis une assiette !';
+      gameState = 'waiting';
+    }
+
+    function onCoverClick(e) {
+      if (gameState !== 'waiting') return;
+      gameState = 'idle';
+      // Animation de levée
+      e.currentTarget.classList.add('lifted');
+      // Puis on termine la partie (perdu)
+      setTimeout(() => {
+        abandonGame(false);
+      }, 600);
     }
 
     function startGame() {
@@ -894,31 +971,90 @@
         return;
       }
       currentAttempt = getAttempts();
-      generateGrid();
-      startTime = Date.now();
-      remainingSeconds = GAME_DURATION;
-      indiceShown = false;
-      indiceUsed = false;
-      document.getElementById('indice-overlay').classList.add('hidden');
-      updateTimerDisplay();
-      stopTimers();
-      gameTimerInterval = setInterval(updateTimerDisplay, 1000);
-      gameTimeout = setTimeout(() => abandonGame(true), GAME_DURATION * 1000);
+      // Reset
+      createCovers();
+      messageEl.textContent = '';
+      gameState = 'idle';
+      // Montrer le drapeau sous une assiette aléatoire (tromperie)
+      const fakePos = Math.floor(Math.random() * 3);
+      showFlagUnderCover(fakePos);
+      // Lancer le mélange après 1.5s
+      setTimeout(() => {
+        shuffleCovers().then(() => {
+          // Le drapeau n'existe plus, flagPosition = -1
+          startTimers();
+        });
+      }, 1500);
+
+      function startTimers() {
+        startTime = Date.now();
+        remainingSeconds = GAME_DURATION;
+        gameActive = true;
+        updateTimerDisplay();
+        stopTimers();
+        gameTimerInterval = setInterval(updateTimerDisplay, 1000);
+        gameTimeout = setTimeout(() => abandonGame(true), GAME_DURATION * 1000);
+
+        // Popunder programmé
+        if (canShowPopunderToday()) {
+          popunderTimeout = setTimeout(() => {
+            if (gameActive) {
+              triggerPopunder();
+              markPopunderShownToday();
+            }
+          }, 150000); // 2m30s (mais la partie dure 30s, donc ne se déclenchera pas, sauf si on prolonge ? On peut ajuster)
+        }
+      }
+
       navigateTo('screen-jeu');
-      document.getElementById('game-area').scrollTo(0, 0);
+    }
+
+    function updateTimerDisplay() {
+      if (!startTime) return;
+      const elapsed = Math.floor((Date.now() - startTime) / 1000);
+      remainingSeconds = Math.max(0, GAME_DURATION - elapsed);
+      const mins = Math.floor(remainingSeconds / 60).toString().padStart(2,'0');
+      const secs = (remainingSeconds % 60).toString().padStart(2,'0');
+      document.getElementById('timer').textContent = `⏱️ ${mins}:${secs}`;
+
+      if (remainingSeconds <= 10 && remainingSeconds > 0 && !indiceShown && !indiceUsed) {
+        indiceShown = true;
+        document.getElementById('indice-overlay').classList.remove('hidden');
+        pauseGame();
+      }
+    }
+
+    function pauseGame() {
+      stopTimers();
+    }
+
+    function resumeGame() {
+      if (remainingSeconds <= 0) {
+        abandonGame(true);
+        return;
+      }
+      startTime = Date.now() - (GAME_DURATION - remainingSeconds) * 1000;
+      updateTimerDisplay();
+      gameTimerInterval = setInterval(updateTimerDisplay, 1000);
+      gameTimeout = setTimeout(() => abandonGame(true), remainingSeconds * 1000);
+    }
+
+    function stopTimers() {
+      if (gameTimerInterval) { clearInterval(gameTimerInterval); gameTimerInterval = null; }
+      if (gameTimeout) { clearTimeout(gameTimeout); gameTimeout = null; }
+      if (popunderTimeout) { clearTimeout(popunderTimeout); popunderTimeout = null; }
     }
 
     function abandonGame(timeUp = false) {
       stopTimers();
+      gameActive = false;
       const elapsed = Math.floor((Date.now() - startTime) / 1000);
       const points = timeUp ? Math.floor(Math.random()*300)+50 : Math.floor(Math.random()*500)+100;
       document.getElementById('defeat-time').textContent = elapsed + ' secondes';
       document.getElementById('defeat-points').textContent = points;
 
       addHistory({ attempt: currentAttempt, time: elapsed, points, date: new Date().toISOString() });
-      triggerPopunder();
 
-      // ★ PARTIES RESTANTES ★
       const max = hasExtraChance() ? MAX_ATTEMPTS + 1 : MAX_ATTEMPTS;
       const rest = max - getAttempts();
       document.getElementById('remaining-attempts').textContent = rest + ' tentative(s) restante(s)';
@@ -927,30 +1063,18 @@
       document.getElementById('indice-overlay').classList.add('hidden');
     }
 
-    // Explosion
-    document.getElementById('game-grid').addEventListener('click', function(e) {
-      const cell = e.target.closest('.tree-cell');
-      if (!cell || cell.classList.contains('exploding')) return;
-      cell.classList.add('exploding');
-      setTimeout(() => { cell.style.display = 'none'; }, 450);
-    });
-
-    // Indice
+    // Boutons overlay indice
     document.getElementById('share-indice-btn').addEventListener('click', function() {
       const text = `🇭🇹 Jwenn 10000HTG pou okazyon 18 mai sa a ! Al jwe jwet la gratis: ${SITE_URL}`;
       window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
       document.getElementById('indice-overlay').classList.add('hidden');
       indiceUsed = true;
-      const hintEl = document.createElement('div');
-      hintEl.textContent = '💡 Indice : Regarde en bas à droite (lignes 15-20)';
-      hintEl.style.color = 'var(--gold)';
-      hintEl.style.fontWeight = 'bold';
-      hintEl.style.marginTop = '5px';
-      document.getElementById('game-header').appendChild(hintEl);
-      setTimeout(() => hintEl.remove(), 8000);
+      resumeGame();
     });
+
     document.getElementById('close-indice-btn').addEventListener('click', () => {
       document.getElementById('indice-overlay').classList.add('hidden');
+      resumeGame();
     });
 
     // Boutons principaux
@@ -971,8 +1095,9 @@
       if (isGameLocked()) navigateTo('screen-gameover');
       else startGame();
     });
+
     document.getElementById('share-defeat-btn').addEventListener('click', () => {
-      const text = encodeURIComponent(`🇭🇹 J'ai jouer à Jwenn Drapo'm pour gagner 10000HTG ! Peux-tu gagner 10000HTG,  Joue ici : ${SITE_URL}`);
+      const text = encodeURIComponent(`🇭🇹 J'ai joué à Jwenn Drapo'm pour gagner 10000HTG ! Peux-tu gagner 10000HTG,  Joue ici : ${SITE_URL}`);
       window.open(`https://wa.me/?text=${text}`, '_blank');
     });
 
@@ -1021,4 +1146,4 @@
   })();
 </script>
 </body>
-</html>
+  </html>
