@@ -621,10 +621,9 @@ updateCountdown();
         visibilityListener=null;
       }
     }
-    document.getElementById('close-extra-modal').addEventListener('click', closeExtra);
     document.getElementById('btn-share-extra').addEventListener('click', (e) => {
       e.preventDefault();
-      const waUrl = `https://wa.me/?text=${encodeURIComponent('🇭🇹 Je tente de gagner 10 000 HTG sur Jwenn Drapo\'m ! '+SITE_URL)}`;
+      const waUrl = `https://wa.me/?text=${encodeURIComponent('🇭🇹 Je tente de gagner 10 000 HTG sur Jwenn Drapo'm ! ' + SITE_URL)}`;
       window.open(waUrl, '_blank');
       if(extraCount<10){
         extraCount++;
